@@ -36,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
         </CardHeader>
         <CardContent className="p-4 flex-grow">
-          <Badge variant="outline" className="mb-2">{product.category}</Badge>
+          <Badge variant="secondary" className="mb-2">{product.category}</Badge>
           <CardTitle className="font-headline text-lg leading-tight">
             {product.name}
           </CardTitle>

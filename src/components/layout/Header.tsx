@@ -11,6 +11,9 @@ import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useCart } from "@/hooks/use-cart";
@@ -79,12 +82,19 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="pr-0">
-                <Link href="/" className="mr-6 flex items-center space-x-2">
-                  <CrescentMoonIcon className="h-6 w-6 text-primary" />
-                  <span className="font-bold font-headline text-lg">
-                    Jalal Bazaar
-                  </span>
-                </Link>
+                <SheetHeader className="p-6 pb-0 pr-6">
+                  <SheetTitle>
+                    <Link href="/" className="flex items-center space-x-2">
+                        <CrescentMoonIcon className="h-6 w-6 text-primary" />
+                        <span className="font-bold font-headline text-lg">
+                            Jalal Bazaar
+                        </span>
+                    </Link>
+                  </SheetTitle>
+                  <SheetDescription>
+                    Navigate through our marketplace.
+                  </SheetDescription>
+                </SheetHeader>
                 <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
                     <div className="flex flex-col space-y-3">
                         {navLinks.map((link) => (
@@ -112,7 +122,7 @@ export function Header() {
                 <ShoppingBag className="h-5 w-5" />
                 {cartCount > 0 && (
                   <Badge
-                    variant="solid"
+                    variant="default"
                     className="absolute -right-2 -top-2 h-5 w-5 justify-center rounded-full bg-accent p-0 text-accent-foreground"
                   >
                     {cartCount}
