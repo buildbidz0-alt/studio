@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { getProductsByIds, type Product } from "@/lib/data";
-import { ProductCard } from "./ProductCard";
+import { ProductCard } from "@/components/product/ProductCard";
 import {
   Carousel,
   CarouselContent,
