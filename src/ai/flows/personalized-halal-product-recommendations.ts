@@ -38,7 +38,8 @@ const personalizedHalalProductRecommendationsPrompt = ai.definePrompt({
   Based on the user's ID ({{{userId}}}), browsing history ({{{browsingHistory}}}), and past purchases ({{{pastPurchases}}}), provide a list of product IDs that the user might be interested in.
 
   Consider the user's past browsing history, purchase behavior, and halal requirements when generating the recommendations.
-  Provide ONLY a JSON output.`,config: {
+  Provide ONLY a JSON output.`,
+  config: {
     safetySettings: [
       {
         category: 'HARM_CATEGORY_HATE_SPEECH',
@@ -71,4 +72,3 @@ const personalizedHalalProductRecommendationsFlow = ai.defineFlow(
     return output!;
   }
 );
-
