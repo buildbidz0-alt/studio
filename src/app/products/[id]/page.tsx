@@ -45,7 +45,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div className="flex flex-col">
           <Badge variant="outline" className="w-fit">{product.category}</Badge>
           <h1 className="font-headline text-4xl md:text-5xl my-3">{product.name}</h1>
-          <p className="text-3xl font-bold text-primary mb-4">${product.price.toFixed(2)}</p>
+          <p className="text-3xl font-bold text-primary mb-4">₹{product.price.toFixed(2)}</p>
           
           <p className="font-body text-muted-foreground leading-relaxed">{product.description}</p>
           

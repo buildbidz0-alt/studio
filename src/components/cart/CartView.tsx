@@ -60,7 +60,7 @@ export function CartView() {
           <CardContent className="space-y-4">
             <div className="flex justify-between font-body">
               <span>Subtotal</span>
-              <span>${cartTotal.toFixed(2)}</span>
+              <span>₹{cartTotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between font-body">
               <span>Shipping</span>
@@ -69,7 +69,7 @@ export function CartView() {
             <Separator />
             <div className="flex justify-between font-bold text-lg">
               <span>Total</span>
-              <span>${cartTotal.toFixed(2)}</span>
+              <span>₹{cartTotal.toFixed(2)}</span>
             </div>
           </CardContent>
           <CardFooter>
@@ -105,7 +105,7 @@ function CartItemRow({ item, onQuantityChange, onRemove }: CartItemRowProps) {
           <h3 className="font-headline text-lg">{item.product.name}</h3>
         </Link>
         <p className="text-muted-foreground text-sm">
-          ${item.product.price.toFixed(2)}
+          ₹{item.product.price.toFixed(2)}
         </p>
       </div>
       <div className="flex items-center gap-4">

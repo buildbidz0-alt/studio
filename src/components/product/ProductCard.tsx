@@ -45,7 +45,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <CardFooter className="flex items-center justify-between p-4 pt-0">
         <div className="flex flex-col">
             <p className="text-xl font-bold text-primary">
-            ${product.price.toFixed(2)}
+            ₹{product.price.toFixed(2)}
             </p>
             {product.isHalalCertified && (
                 <div className="flex items-center text-xs text-green-700 mt-1">

@@ -27,20 +27,20 @@ const mockOrders: Order[] = [
     id: 'ORD-12345',
     date: '2023-10-26',
     status: 'Delivered',
-    total: 60.99,
+    total: 4878,
     items: [
-      { product: { id: 'prod-2', name: 'Luxury Silk Hijab', price: 45.0, imageUrl: 'https://picsum.photos/100/100', category: 'Apparel', sellerId: 'seller-2', isHalalCertified: true, imageHint: 'silk scarf' } as Product, quantity: 1 },
-      { product: { id: 'prod-4', name: 'Artisanal Honey', price: 15.99, imageUrl: 'https://picsum.photos/100/100', category: 'Food', sellerId: 'seller-1', isHalalCertified: true, imageHint: 'honey jar' } as Product, quantity: 1 },
+      { product: { id: 'prod-2', name: 'Luxury Silk Hijab', price: 3600, imageUrl: 'https://picsum.photos/100/100', category: 'Apparel', sellerId: 'seller-2', isHalalCertified: true, imageHint: 'silk scarf' } as Product, quantity: 1 },
+      { product: { id: 'prod-4', name: 'Artisanal Honey', price: 1279, imageUrl: 'https://picsum.photos/100/100', category: 'Food', sellerId: 'seller-1', isHalalCertified: true, imageHint: 'honey jar' } as Product, quantity: 1 },
     ],
   },
   {
     id: 'ORD-67890',
     date: '2023-11-15',
     status: 'Processing',
-    total: 112.49,
+    total: 8999,
     items: [
-       { product: { id: 'prod-8', name: 'Linen Open Abaya', price: 89.99, imageUrl: 'https://picsum.photos/100/100', category: 'Apparel', sellerId: 'seller-2', isHalalCertified: true, imageHint: 'modest fashion' } as Product, quantity: 1 },
-       { product: { id: 'prod-10', name: 'Argan Oil Hair Serum', price: 22.50, imageUrl: 'https://picsum.photos/100/100', category: 'Cosmetics', sellerId: 'seller-3', isHalalCertified: true, imageHint: 'hair oil' } as Product, quantity: 1 },
+       { product: { id: 'prod-8', name: 'Linen Open Abaya', price: 7199, imageUrl: 'https://picsum.photos/100/100', category: 'Apparel', sellerId: 'seller-2', isHalalCertified: true, imageHint: 'modest fashion' } as Product, quantity: 1 },
+       { product: { id: 'prod-10', name: 'Argan Oil Hair Serum', price: 1800, imageUrl: 'https://picsum.photos/100/100', category: 'Cosmetics', sellerId: 'seller-3', isHalalCertified: true, imageHint: 'hair oil' } as Product, quantity: 1 },
     ],
   },
 ];
@@ -68,7 +68,7 @@ export function OrderHistory() {
                     </div>
                     <div className="text-right flex flex-col items-end gap-1">
                        <Badge variant={order.status === 'Delivered' ? 'default' : order.status === 'Cancelled' ? 'destructive' : 'secondary'}>{order.status}</Badge>
-                       <p className="font-bold text-lg">${order.total.toFixed(2)}</p>
+                       <p className="font-bold text-lg">₹{order.total.toFixed(2)}</p>
                     </div>
                   </div>
                 </AccordionTrigger>
@@ -82,7 +82,7 @@ export function OrderHistory() {
                                     <p className="font-semibold">{item.product.name}</p>
                                     <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
                                 </div>
-                                <p className="ml-auto font-semibold">${(item.product.price * item.quantity).toFixed(2)}</p>
+                                <p className="ml-auto font-semibold">₹{(item.product.price * item.quantity).toFixed(2)}</p>
                             </div>
                         ))}
                     </div>

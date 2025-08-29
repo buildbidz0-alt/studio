@@ -31,6 +31,13 @@ const MOCK_USER: User = {
     email: "aisha.khan@example.com"
 };
 
+const ADMIN_USER: User = {
+    id: "admin-user-id",
+    firstName: "Admin",
+    lastName: "User",
+    email: "admin@jalalbazaar.com",
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -55,17 +62,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // In a real app, you would make an API call to your backend here
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        if (email.toLowerCase() === MOCK_USER.email && password === 'password123') {
-          const loggedInUser = { ...MOCK_USER, email };
-          setUser(loggedInUser);
-          window.localStorage.setItem('jalal-bazaar-user', JSON.stringify(loggedInUser));
+        const lowerCaseEmail = email.toLowerCase();
+        let foundUser: User | null = null;
+
+        if (lowerCaseEmail === MOCK_USER.email && password === 'password123') {
+          foundUser = { ...MOCK_USER, email: lowerCaseEmail };
+        } else if (lowerCaseEmail === ADMIN_USER.email && password === '596847464j') {
+          foundUser = { ...ADMIN_USER, email: lowerCaseEmail };
+        }
+
+        if (foundUser) {
+          setUser(foundUser);
+          window.localStorage.setItem('jalal-bazaar-user', JSON.stringify(foundUser));
           toast({
             title: "Login Successful",
-            description: `Welcome back, ${loggedInUser.firstName}!`,
+            description: `Welcome back, ${foundUser.firstName}!`,
           });
           resolve();
         } else {
-          reject(new Error("Invalid email or password. Hint: use password 'password123'"));
+          reject(new Error("Invalid email or password."));
         }
       }, 1000);
     });
@@ -76,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
      return new Promise((resolve, reject) => {
         setTimeout(() => {
           // Check if user already exists (mock)
-          if(email.toLowerCase() === MOCK_USER.email) {
+          if(email.toLowerCase() === MOCK_USER.email || email.toLowerCase() === ADMIN_USER.email) {
               reject(new Error("An account with this email already exists."));
               return;
           }

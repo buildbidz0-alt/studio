@@ -38,7 +38,7 @@ export function OrderSummary() {
                         <p className="font-body font-semibold">{item.product.name}</p>
                     </div>
                     <p className="font-body font-semibold">
-                        ${(item.product.price * item.quantity).toFixed(2)}
+                        ₹{(item.product.price * item.quantity).toFixed(2)}
                     </p>
                 </div>
             ))}
@@ -46,7 +46,7 @@ export function OrderSummary() {
         <Separator />
         <div className="flex justify-between font-body">
             <span>Subtotal</span>
-            <span>${cartTotal.toFixed(2)}</span>
+            <span>₹{cartTotal.toFixed(2)}</span>
         </div>
         <div className="flex justify-between font-body">
             <span>Shipping</span>
@@ -57,7 +57,7 @@ export function OrderSummary() {
       <CardFooter>
         <div className="flex justify-between font-bold text-lg w-full">
             <span>Total</span>
-            <span>${cartTotal.toFixed(2)}</span>
+            <span>₹{cartTotal.toFixed(2)}</span>
         </div>
       </CardFooter>
     </Card>
