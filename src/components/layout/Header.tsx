@@ -10,14 +10,12 @@ import {
   LogIn,
   Shield,
   Store,
+  Briefcase,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useCart } from "@/hooks/use-cart.tsx";
@@ -31,6 +29,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Separator } from "../ui/separator";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -82,6 +81,14 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+             {user?.role !== 'seller' && user?.role !== 'admin' && (
+                <Link
+                  href="/seller/join"
+                  className="transition-colors hover:text-foreground/80 text-foreground/60 font-semibold text-primary"
+                >
+                  Become a Seller
+                </Link>
+              )}
           </nav>
         </div>
 
@@ -95,23 +102,18 @@ export function Header() {
                   <span className="sr-only">Toggle Menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="pr-0">
-                <SheetHeader className="p-6 pb-4 text-left">
-                  <SheetTitle>
-                     <Link href="/" className="flex items-center space-x-2">
+              <SheetContent side="left" className="pr-0 flex flex-col">
+                 <div className="p-6 pb-4 text-left">
+                    <Link href="/" className="flex items-center space-x-2">
                         <CrescentMoonIcon className="h-6 w-6 text-primary" />
                         <span className="font-bold font-headline text-lg">
                             Jalal Bazaar
                         </span>
                     </Link>
-                  </SheetTitle>
-                  <SheetDescription>
-                    Authentic Halal Products Marketplace
-                  </SheetDescription>
-                </SheetHeader>
+                 </div>
                 
-                <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
-                    <div className="flex flex-col space-y-3">
+                <div className="flex-grow pl-6">
+                    <div className="flex flex-col space-y-4">
                         {navLinks.map((link) => (
                         <Link
                             key={`${link.href}-${link.label}-mobile`}
@@ -123,6 +125,18 @@ export function Header() {
                         ))}
                     </div>
                 </div>
+
+                {user?.role !== 'seller' && user?.role !== 'admin' && (
+                  <div className="p-6 pt-0">
+                    <Separator className="my-4" />
+                     <Button asChild className="w-full">
+                      <Link href="/seller/join">
+                        <Briefcase className="mr-2 h-4 w-4" />
+                        Become a Seller
+                      </Link>
+                    </Button>
+                  </div>
+                )}
               </SheetContent>
             </Sheet>
           </div>

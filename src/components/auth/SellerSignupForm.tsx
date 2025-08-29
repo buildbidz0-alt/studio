@@ -22,13 +22,13 @@ import { AlertCircle } from "lucide-react";
 const formSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters."),
   lastName: z.string().min(2, "Last name must be at least 2 characters."),
+  storeName: z.string().min(3, "Store name must be at least 3 characters."),
   email: z.string().email({ message: "Please enter a valid email address." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
 });
 
-export function SignupForm() {
+export function SellerSignupForm() {
   const { signup } = useAuth();
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,6 +36,7 @@ export function SignupForm() {
     defaultValues: {
       firstName: "",
       lastName: "",
+      storeName: "",
       email: "",
       password: "",
     },
@@ -46,7 +47,7 @@ export function SignupForm() {
     try {
       const signupData: Omit<User, 'id'> = {
           ...values,
-          role: 'customer'
+          role: 'seller'
       }
       await signup(signupData);
     } catch (err: any) {
@@ -92,6 +93,19 @@ export function SignupForm() {
             )}
             />
         </div>
+         <FormField
+            control={form.control}
+            name="storeName"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>Store Name</FormLabel>
+                <FormControl>
+                    <Input placeholder="My Awesome Store" {...field} />
+                </FormControl>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
         <FormField
           control={form.control}
           name="email"
@@ -119,7 +133,7 @@ export function SignupForm() {
           )}
         />
         <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-           {form.formState.isSubmitting ? 'Creating account...' : 'Create Account'}
+           {form.formState.isSubmitting ? 'Creating seller account...' : 'Create Seller Account'}
         </Button>
       </form>
     </Form>
