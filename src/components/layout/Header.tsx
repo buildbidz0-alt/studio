@@ -9,6 +9,7 @@ import {
   LogOut,
   LogIn,
   Shield,
+  Store,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -162,11 +163,19 @@ export function Header() {
                       <span>Profile</span>
                     </Link>
                   </DropdownMenuItem>
-                  {user.email === 'admin@jalalbazaar.com' && (
+                  {user.role === 'admin' && (
                      <DropdownMenuItem asChild>
                         <Link href="/admin">
                             <Shield className="mr-2 h-4 w-4" />
                             <span>Admin Dashboard</span>
+                        </Link>
+                    </DropdownMenuItem>
+                  )}
+                  {user.role === 'seller' && (
+                     <DropdownMenuItem asChild>
+                        <Link href="/seller/dashboard">
+                            <Store className="mr-2 h-4 w-4" />
+                            <span>Seller Dashboard</span>
                         </Link>
                     </DropdownMenuItem>
                   )}

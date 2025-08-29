@@ -10,6 +10,7 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
+  role: 'customer' | 'seller' | 'admin';
 }
 
 interface AuthContextType {
@@ -23,12 +24,20 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Mock user data for demonstration purposes
-const MOCK_USER_ID = "user-123-abc";
-const MOCK_USER: User = {
-    id: MOCK_USER_ID,
+const MOCK_CUSTOMER: User = {
+    id: "user-123-abc",
     firstName: "Aisha",
     lastName: "Khan",
-    email: "aisha.khan@example.com"
+    email: "aisha.khan@example.com",
+    role: 'customer'
+};
+
+const MOCK_SELLER: User = {
+    id: "seller-456-def",
+    firstName: "Fatima",
+    lastName: "Ahmed",
+    email: "seller@example.com",
+    role: 'seller'
 };
 
 const ADMIN_USER: User = {
@@ -36,6 +45,7 @@ const ADMIN_USER: User = {
     firstName: "Admin",
     lastName: "User",
     email: "admin@jalalbazaar.com",
+    role: 'admin'
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -65,10 +75,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const lowerCaseEmail = email.toLowerCase();
         let foundUser: User | null = null;
 
-        if (lowerCaseEmail === MOCK_USER.email && password === 'password123') {
-          foundUser = { ...MOCK_USER, email: lowerCaseEmail };
+        if (lowerCaseEmail === MOCK_CUSTOMER.email && password === 'password123') {
+          foundUser = { ...MOCK_CUSTOMER, email: lowerCaseEmail };
         } else if (lowerCaseEmail === ADMIN_USER.email && password === '596847464j') {
           foundUser = { ...ADMIN_USER, email: lowerCaseEmail };
+        } else if (lowerCaseEmail === MOCK_SELLER.email && password === 'password123') {
+            foundUser = { ...MOCK_SELLER, email: lowerCaseEmail };
         }
 
         if (foundUser) {
@@ -80,7 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           });
           resolve();
         } else {
-          reject(new Error("Invalid email or password."));
+          reject(new Error("Invalid email or password. Try 'seller@example.com' with password 'password123'."));
         }
       }, 1000);
     });
@@ -91,11 +103,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
      return new Promise((resolve, reject) => {
         setTimeout(() => {
           // Check if user already exists (mock)
-          if(email.toLowerCase() === MOCK_USER.email || email.toLowerCase() === ADMIN_USER.email) {
+          if(email.toLowerCase() === MOCK_CUSTOMER.email || email.toLowerCase() === ADMIN_USER.email || email.toLowerCase() === MOCK_SELLER.email) {
               reject(new Error("An account with this email already exists."));
               return;
           }
-          const newUser: User = { id: `user-${Date.now()}`, email, firstName, lastName };
+          const newUser: User = { id: `user-${Date.now()}`, email, firstName, lastName, role: 'customer' };
           setUser(newUser);
           window.localStorage.setItem('jalal-bazaar-user', JSON.stringify(newUser));
           toast({
