@@ -6,18 +6,26 @@ import {
   Search,
   ShoppingBag,
   User,
+  LogOut,
+  LogIn
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useCart } from "@/hooks/use-cart";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/use-auth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -47,6 +55,7 @@ function CrescentMoonIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export function Header() {
   const { cartCount } = useCart();
+  const { user, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -82,19 +91,12 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="pr-0">
-                <SheetHeader className="p-6 pb-0 pr-6">
-                  <SheetTitle>
-                    <Link href="/" className="flex items-center space-x-2">
-                        <CrescentMoonIcon className="h-6 w-6 text-primary" />
-                        <span className="font-bold font-headline text-lg">
-                            Jalal Bazaar
-                        </span>
-                    </Link>
-                  </SheetTitle>
-                  <SheetDescription>
-                    Navigate through our marketplace.
-                  </SheetDescription>
-                </SheetHeader>
+                <Link href="/" className="p-6 pb-0 flex items-center space-x-2">
+                    <CrescentMoonIcon className="h-6 w-6 text-primary" />
+                    <span className="font-bold font-headline text-lg">
+                        Jalal Bazaar
+                    </span>
+                </Link>
                 <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
                     <div className="flex flex-col space-y-3">
                         {navLinks.map((link) => (
@@ -131,12 +133,37 @@ export function Header() {
                 <span className="sr-only">Shopping Cart</span>
               </Link>
             </Button>
-            <Button asChild variant="ghost" size="icon">
-              <Link href="/profile">
-                <User className="h-5 w-5" />
-                <span className="sr-only">Profile</span>
-              </Link>
-            </Button>
+            {user ? (
+               <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <User className="h-5 w-5" />
+                    <span className="sr-only">User Menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={logout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button asChild variant="ghost" size="icon">
+                <Link href="/login">
+                  <LogIn className="h-5 w-5" />
+                  <span className="sr-only">Login</span>
+                </Link>
+              </Button>
+            )}
           </nav>
         </div>
       </div>

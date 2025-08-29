@@ -15,6 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   firstName: z.string().min(2, "First name is too short"),
@@ -24,17 +26,27 @@ const formSchema = z.object({
 
 export function MyDetails() {
   const { toast } = useToast();
-  // Mock user data
-  const user = {
-    firstName: "Aisha",
-    lastName: "Khan",
-    email: "aisha.khan@example.com",
-  };
+  const { user } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: user,
+    defaultValues: {
+        firstName: "",
+        lastName: "",
+        email: "",
+    },
   });
+
+  useEffect(() => {
+    if (user) {
+        form.reset({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+        });
+    }
+  }, [user, form]);
+
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Profile updated:", values);
@@ -42,6 +54,19 @@ export function MyDetails() {
         title: "Profile Updated!",
         description: "Your details have been successfully saved.",
     });
+  }
+
+  if (!user) {
+      return (
+        <Card>
+            <CardHeader>
+                <CardTitle className="font-headline text-2xl">My Details</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <p>Loading user details...</p>
+            </CardContent>
+        </Card>
+      )
   }
 
   return (

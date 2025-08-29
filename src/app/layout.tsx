@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Toaster } from '@/components/ui/toaster';
 import { CartProvider } from '@/hooks/use-cart';
 import { WishlistProvider } from '@/hooks/use-wishlist';
+import { AuthProvider } from '@/hooks/use-auth';
 
 const belleza = Belleza({
   subsets: ['latin'],
@@ -38,16 +39,18 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
       </head>
       <body className={cn('min-h-screen bg-background font-body antialiased', belleza.variable, alegreya.variable)}>
-        <CartProvider>
-          <WishlistProvider>
-            <div className="relative flex min-h-dvh flex-col">
-              <Header />
-              <main className="flex-1">{children}</main>
-              <Footer />
-            </div>
-            <Toaster />
-          </WishlistProvider>
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <div className="relative flex min-h-dvh flex-col">
+                <Header />
+                <main className="flex-1">{children}</main>
+                <Footer />
+              </div>
+              <Toaster />
+            </WishlistProvider>
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
