@@ -5,7 +5,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ShieldCheck, Users, Package, DollarSign } from "lucide-react";
+import { ShieldCheck, Users, Package, DollarSign, Activity } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SellerManagement } from "@/components/admin/SellerManagement";
+import { AuditLog } from "@/components/admin/AuditLog";
 
 export default function AdminDashboardPage() {
   return (
@@ -60,28 +63,31 @@ export default function AdminDashboardPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Pending KYC
+              Recent Activity
             </CardTitle>
-            <ShieldCheck className="h-4 w-4 text-muted-foreground" />
+            <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">5</div>
+            <div className="text-2xl font-bold">+573</div>
             <p className="text-xs text-muted-foreground">
-              Sellers awaiting verification
+              Actions in the last hour
             </p>
           </CardContent>
         </Card>
       </div>
       <div className="mt-8">
-        <Card>
-            <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
-                <CardDescription>Placeholder for recent orders, seller signups, etc.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <p className="text-muted-foreground">Coming soon: A list of recent events will be displayed here.</p>
-            </CardContent>
-        </Card>
+        <Tabs defaultValue="sellers">
+          <TabsList className="mb-4">
+            <TabsTrigger value="sellers">Seller Management</TabsTrigger>
+            <TabsTrigger value="audit">Audit Log</TabsTrigger>
+          </TabsList>
+          <TabsContent value="sellers">
+            <SellerManagement />
+          </TabsContent>
+          <TabsContent value="audit">
+            <AuditLog />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

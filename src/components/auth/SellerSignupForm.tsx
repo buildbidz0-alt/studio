@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { AlertCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters."),
@@ -29,6 +30,7 @@ const formSchema = z.object({
 
 export function SellerSignupForm() {
   const { signup } = useAuth();
+  const { toast } = useToast();
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,9 +49,15 @@ export function SellerSignupForm() {
     try {
       const signupData: Omit<User, 'id'> = {
           ...values,
-          role: 'seller'
+          role: 'seller',
+          status: 'pending' // New sellers start as pending
       }
       await signup(signupData);
+      form.reset();
+      toast({
+        title: "Registration Submitted!",
+        description: "Your seller application is under review. We'll notify you upon approval."
+      })
     } catch (err: any) {
       setError(err.message);
     }
@@ -133,7 +141,7 @@ export function SellerSignupForm() {
           )}
         />
         <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-           {form.formState.isSubmitting ? 'Creating seller account...' : 'Create Seller Account'}
+           {form.formState.isSubmitting ? 'Submitting for review...' : 'Submit for Review'}
         </Button>
       </form>
     </Form>

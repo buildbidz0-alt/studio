@@ -15,15 +15,19 @@ export default function SellerLayout({
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && user?.role !== "seller") {
-      router.replace("/login");
+    if (!isLoading) {
+      if (user?.role !== "seller") {
+        router.replace("/login");
+      } else if (user.status !== "approved") {
+        router.replace("/seller/join"); // Or a dedicated "pending approval" page
+      }
     }
   }, [user, isLoading, router]);
 
-  if (isLoading || user?.role !== "seller") {
+  if (isLoading || user?.role !== "seller" || user.status !== 'approved') {
     return (
         <div className="container mx-auto py-24 flex items-center justify-center">
-            <Card className="w-[400px]">
+            <Card className="w-[450px]">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <AlertTriangle className="text-destructive" />
@@ -31,7 +35,8 @@ export default function SellerLayout({
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p>You must be a seller to view this page. Redirecting...</p>
+                    <p>Your seller account is not active. It might be pending approval or has been rejected.</p>
+                    <p className="mt-2 text-sm text-muted-foreground">If you believe this is an error, please contact support.</p>
                 </CardContent>
             </Card>
         </div>
