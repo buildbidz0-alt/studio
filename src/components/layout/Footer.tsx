@@ -22,28 +22,52 @@ function CrescentMoonIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export function Footer() {
+  const footerLinks = [
+      { href: "/about", label: "About Us" },
+      { href: "/contact", label: "Contact" },
+      { href: "/terms", label: "Terms of Service" },
+      { href: "/privacy", label: "Privacy Policy" },
+  ]
   return (
     <footer className="w-full border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
-        <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-          <CrescentMoonIcon className="h-6 w-6 text-primary" />
+      <div className="container mx-auto flex flex-col items-center justify-between gap-6 py-10 md:flex-row">
+        <div className="flex flex-col items-center gap-4 px-8 md:items-start md:px-0">
+          <div className="flex items-center space-x-2">
+            <CrescentMoonIcon className="h-6 w-6 text-primary" />
+            <span className="font-bold sm:inline-block font-headline text-lg">
+                Jalal Bazaar
+            </span>
+          </div>
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left font-body">
             © {new Date().getFullYear()} Jalal Bazaar. All Rights Reserved.
           </p>
         </div>
-        <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon">
-                <Twitter className="h-5 w-5" />
-                <span className="sr-only">Twitter</span>
-            </Button>
-            <Button variant="ghost" size="icon">
-                <Instagram className="h-5 w-5" />
-                <span className="sr-only">Instagram</span>
-            </Button>
-            <Button variant="ghost" size="icon">
-                <Github className="h-5 w-5" />
-                <span className="sr-only">GitHub</span>
-            </Button>
+        <div className="flex flex-col items-center gap-4 md:items-end">
+            <nav className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm font-body">
+                {footerLinks.map((link) => (
+                    <Link
+                        key={link.href}
+                        href={link.href}
+                        className="transition-colors hover:text-foreground/80 text-foreground/60"
+                    >
+                        {link.label}
+                    </Link>
+                ))}
+            </nav>
+            <div className="flex items-center gap-2">
+                <Button variant="ghost" size="icon">
+                    <Twitter className="h-5 w-5" />
+                    <span className="sr-only">Twitter</span>
+                </Button>
+                <Button variant="ghost" size="icon">
+                    <Instagram className="h-5 w-5" />
+                    <span className="sr-only">Instagram</span>
+                </Button>
+                <Button variant="ghost" size="icon">
+                    <Github className="h-5 w-5" />
+                    <span className="sr-only">GitHub</span>
+                </Button>
+            </div>
         </div>
       </div>
     </footer>
