@@ -27,7 +27,7 @@ export default async function Home() {
             Authenticity in Every Bite
           </h1>
           <p className="mt-4 max-w-2xl font-body text-lg md:text-xl">
-            there should be halal products and Islamic culture products
+            Discover a curated marketplace of the finest halal products, verified for your peace of mind.
           </p>
           <Button asChild size="lg" className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90">
             <Link href="/products">Shop Now</Link>
