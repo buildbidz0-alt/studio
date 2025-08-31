@@ -83,6 +83,14 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+             {user?.role === 'admin' && (
+                <Link
+                  href="/admin"
+                  className="transition-colors hover:text-foreground/80 text-foreground/60 font-semibold text-primary"
+                >
+                  Admin Dashboard
+                </Link>
+              )}
              {user?.role !== 'seller' && user?.role !== 'admin' && (
                 <Link
                   href="/seller/join"
