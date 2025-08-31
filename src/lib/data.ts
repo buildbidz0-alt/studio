@@ -6,6 +6,9 @@ export interface Product {
     hi: string;
     ur: string;
     ar: string;
+    tr: string;
+    ms: string;
+    fr: string;
   };
   description: string;
   price: number;
@@ -61,6 +64,9 @@ let products: Product[] = [
       hi: 'जैविक जैतून का तेल',
       ur: 'نامیاتی زیتون کا تیل',
       ar: 'زيت زيتون عضوي',
+      tr: 'Organik Zeytinyağı',
+      ms: 'Minyak Zaitun Organik',
+      fr: 'Huile d\'Olive Biologique',
     },
     description: 'Cold-pressed extra virgin olive oil from the hills of Palestine. Perfect for salads, dips, and cooking. Rich in antioxidants and flavor.',
     price: 1999,
@@ -78,6 +84,9 @@ let products: Product[] = [
       hi: 'लक्ज़री सिल्क हिजाब',
       ur: 'لگژری سلک حجاب',
       ar: 'حجاب حريري فاخر',
+      tr: 'Lüks İpek Başörtüsü',
+      ms: 'Hijab Sutera Mewah',
+      fr: 'Hijab en Soie de Luxe',
     },
     description: 'A beautiful, lightweight silk hijab in a timeless emerald green. Soft, breathable, and drapes elegantly for a sophisticated look.',
     price: 3600,
@@ -95,6 +104,9 @@ let products: Product[] = [
       hi: 'गुलाब जल फेस मिस्ट',
       ur: 'عرق گلاب فیس مسٹ',
       ar: 'رذاذ ماء الورد للوجه',
+      tr: 'Gül Suyu Yüz Spreyi',
+      ms: 'Semburan Muka Air Mawar',
+      fr: 'Brume pour le Visage à l\'Eau de Rose',
     },
     description: 'Hydrating and refreshing face mist made with pure Damask rosewater. Soothes skin, reduces redness, and provides a dewy glow.',
     price: 1480,
@@ -112,6 +124,9 @@ let products: Product[] = [
       hi: 'कारीगर शहद',
       ur: 'کاریگر شہد',
       ar: 'عسل حرفي',
+      tr: 'Zanaatkar Balı',
+      ms: 'Madu Kraftangan',
+      fr: 'Miel Artisanal',
     },
     description: 'Raw, unfiltered wildflower honey from local apiaries. A natural sweetener with antibacterial properties.',
     price: 1279,
@@ -129,6 +144,9 @@ let products: Product[] = [
         hi: 'कूफी-शैली की प्रार्थना चटाई',
         ur: 'کوفی طرز کی جائے نماز',
         ar: 'سجادة صلاة على الطراز الكوفي',
+        tr: 'Kufi Tarzı Seccade',
+        ms: 'Tikar Sembahyang Gaya Kufi',
+        fr: 'Tapis de Prière de Style Koufique',
     },
     description: 'Plush and comfortable prayer mat with geometric Kufic calligraphy design. Non-slip backing and premium quality.',
     price: 2800,
@@ -146,6 +164,9 @@ let products: Product[] = [
         hi: 'प्राकृतिक मिस्वाक टूथस्टिक',
         ur: 'قدرتی مسواک ٹوتھ اسٹک',
         ar: 'سواك أسنان طبيعي',
+        tr: 'Doğal Misvak Diş Çubuğu',
+        ms: 'Kayu Sugi Miswak Semulajadi',
+        fr: 'Bâton de Siwak Naturel',
     },
     description: 'A traditional and natural way to clean teeth. Harvested from the Salvadora persica tree, it has numerous dental benefits.',
     price: 479,
@@ -163,6 +184,9 @@ let products: Product[] = [
         hi: 'मसालेदार खजूर का स्प्रेड',
         ur: 'مصالحہ دار کھجور کا اسپریڈ',
         ar: 'معجون التمر المتبل',
+        tr: 'Baharatlı Hurma Ezmesi',
+        ms: 'Sapuan Kurma Berempah',
+        fr: 'Tartinade de Dattes Épicée',
     },
     description: 'A delicious and healthy spread made from Medjool dates, cinnamon, and cardamom. Perfect on toast or with fruit.',
     price: 960,
@@ -180,6 +204,9 @@ let products: Product[] = [
         hi: 'लिनन ओपन अबाया',
         ur: 'لینن اوپن عبایا',
         ar: 'عباءة مفتوحة من الكتان',
+        tr: 'Keten Açık Abaya',
+        ms: 'Abaya Terbuka Linen',
+        fr: 'Abaya Ouverte en Lin',
     },
     description: 'A breathable and stylish open abaya made from 100% linen. Perfect for layering in any season.',
     price: 7199,
@@ -197,6 +224,9 @@ let products: Product[] = [
         hi: 'कलौंजी का तेल',
         ur: 'کلونجی کا تیل',
         ar: 'زيت الحبة السوداء',
+        tr: 'Çörek Otu Yağı',
+        ms: 'Minyak Habbatus Sauda',
+        fr: 'Huile de Nigelle',
     },
     description: 'Cold-pressed Nigella Sativa oil, known for its powerful immune-boosting and anti-inflammatory properties.',
     price: 2399,
@@ -214,6 +244,9 @@ let products: Product[] = [
         hi: 'आर्गन ऑयल हेयर सीरम',
         ur: 'آرگن آئل ہیئر سیرم',
         ar: 'سيروم زيت الأرغان للشعر',
+        tr: 'Argan Yağı Saç Serumu',
+        ms: 'Serum Rambut Minyak Argan',
+        fr: 'Sérum Capillaire à l\'Huile d\'Argan',
     },
     description: 'A nourishing hair serum with pure Moroccan Argan oil. Tames frizz, adds shine, and protects hair from damage.',
     price: 1800,
@@ -231,6 +264,9 @@ let products: Product[] = [
         hi: 'ज्यामितीय इस्लामी दीवार कला',
         ur: 'جیومیٹرک اسلامی وال آرٹ',
         ar: 'فن جداري إسلامي هندسي',
+        tr: 'Geometrik İslami Duvar Sanatı',
+        ms: 'Seni Dinding Islam Geometri',
+        fr: 'Art Mural Islamique Géométrique',
     },
     description: 'Intricate laser-cut wood wall art featuring a stunning geometric pattern. A beautiful addition to any modern Muslim home.',
     price: 9600,
@@ -248,6 +284,9 @@ let products: Product[] = [
         hi: 'हलाल गमी कैंडीज',
         ur: 'حلال گمی کینڈیز',
         ar: 'حلوى جيلاتينية حلال',
+        tr: 'Helal Jelibon Şekerler',
+        ms: 'Gula-gula Bergetah Halal',
+        fr: 'Bonbons Gélifiés Halal',
     },
     description: 'Assorted fruit-flavored gummy candies made with beef gelatin. A sweet treat for all ages.',
     price: 600,
@@ -307,10 +346,7 @@ export async function getProducts(options?: { category?: string; search?: string
   if (options?.search) {
     const searchTerm = options.search.toLowerCase();
     filteredProducts = filteredProducts.filter(p => 
-      p.name.en.toLowerCase().includes(searchTerm) || 
-      p.name.hi.toLowerCase().includes(searchTerm) ||
-      p.name.ur.toLowerCase().includes(searchTerm) ||
-      p.name.ar.toLowerCase().includes(searchTerm) ||
+      Object.values(p.name).some(name => name.toLowerCase().includes(searchTerm)) ||
       p.description.toLowerCase().includes(searchTerm)
     );
   }

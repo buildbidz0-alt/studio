@@ -42,6 +42,9 @@ const formSchema = z.object({
   name_hi: z.string().min(1, "Hindi name is required."),
   name_ur: z.string().min(1, "Urdu name is required."),
   name_ar: z.string().min(1, "Arabic name is required."),
+  name_tr: z.string().min(1, "Turkish name is required."),
+  name_ms: z.string().min(1, "Malay name is required."),
+  name_fr: z.string().min(1, "French name is required."),
   description: z.string().min(10, "Description must be at least 10 characters."),
   price: z.coerce.number().positive("Price must be a positive number."),
   category: z.enum(['Food', 'Cosmetics', 'Apparel', 'Home Goods']),
@@ -76,6 +79,9 @@ export function ProductForm({ product }: ProductFormProps) {
       name_hi: "",
       name_ur: "",
       name_ar: "",
+      name_tr: "",
+      name_ms: "",
+      name_fr: "",
       description: "",
       price: 0,
       category: "Food",
@@ -92,6 +98,9 @@ export function ProductForm({ product }: ProductFormProps) {
         name_hi: product.name.hi,
         name_ur: product.name.ur,
         name_ar: product.name.ar,
+        name_tr: product.name.tr,
+        name_ms: product.name.ms,
+        name_fr: product.name.fr,
         description: product.description,
         price: product.price,
         category: product.category,
@@ -170,6 +179,9 @@ export function ProductForm({ product }: ProductFormProps) {
             hi: values.name_hi,
             ur: values.name_ur,
             ar: values.name_ar,
+            tr: values.name_tr,
+            ms: values.name_ms,
+            fr: values.name_fr,
         },
         description: values.description,
         price: values.price,
@@ -267,6 +279,47 @@ export function ProductForm({ product }: ProductFormProps) {
             )}
           />
         </div>
+         <div className="grid grid-cols-2 gap-4">
+           <FormField
+            control={form.control}
+            name="name_tr"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Name (Turkish)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Örn., Organik Zeytinyağı" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+           <FormField
+            control={form.control}
+            name="name_ms"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Name (Malay)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Cth., Minyak Zaitun Organik" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+         <FormField
+            control={form.control}
+            name="name_fr"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Name (French)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Ex., Huile d'Olive Biologique" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
          <FormField
           control={form.control}
           name="description"

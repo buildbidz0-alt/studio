@@ -47,10 +47,7 @@ export default function ProductsPage() {
       const lowerSearchTerm = searchTerm.toLowerCase();
       tempProducts = tempProducts.filter(
         (p) =>
-          p.name.en.toLowerCase().includes(lowerSearchTerm) ||
-          p.name.hi.toLowerCase().includes(lowerSearchTerm) ||
-          p.name.ur.toLowerCase().includes(lowerSearchTerm) ||
-          p.name.ar.toLowerCase().includes(lowerSearchTerm) ||
+          Object.values(p.name).some(name => name.toLowerCase().includes(lowerSearchTerm)) ||
           p.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }

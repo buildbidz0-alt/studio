@@ -165,11 +165,14 @@ export function Header() {
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                    <DropdownMenuRadioGroup value={language} onValueChange={setLanguage}>
+                    <DropdownMenuRadioGroup value={language} onValueChange={(value) => setLanguage(value as any)}>
                         <DropdownMenuRadioItem value="en">{t('lang_en')}</DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="hi">{t('lang_hi')}</DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="ur">{t('lang_ur')}</DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="ar">{t('lang_ar')}</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="tr">{t('lang_tr')}</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="ms">{t('lang_ms')}</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="fr">{t('lang_fr')}</DropdownMenuRadioItem>
                     </DropdownMenuRadioGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
