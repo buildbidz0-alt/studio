@@ -101,14 +101,14 @@ export function ProductPageClient({ product, seller, otherProducts }: ProductPag
 
       <div className="grid md:grid-cols-2 gap-12">
         <div>
-            <Card className="overflow-hidden">
+            <Card className="overflow-hidden group">
                 <CardContent className="p-0">
                     <div className="relative aspect-square w-full">
                     <Image
                         src={product.imageUrls[activeImage]}
                         alt={product.name[language]}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-125"
                         data-ai-hint={product.imageHint}
                         priority
                     />
