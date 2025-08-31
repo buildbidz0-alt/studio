@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -16,6 +17,8 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
+import { useAuth } from "@/hooks/use-auth";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -25,15 +28,19 @@ const formSchema = z.object({
   city: z.string().min(2, "City is too short"),
   country: z.string().min(2, "Country is too short"),
   postalCode: z.string().min(4, "Postal code is too short"),
-  cardName: z.string().min(2, "Name on card is required"),
-  cardNumber: z.string().length(16, "Card number must be 16 digits"),
-  expiryDate: z.string().regex(/^(0[1-9]|1[0-2])\/\d{2}$/, "Invalid expiry date (MM/YY)"),
-  cvc: z.string().length(3, "CVC must be 3 digits"),
 });
 
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
 export function CheckoutForm() {
-  const { clearCart } = useCart();
+  const { cartItems, cartTotal, clearCart } = useCart();
+  const { user } = useAuth();
   const { toast } = useToast();
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,23 +49,70 @@ export function CheckoutForm() {
       lastName: "",
       address: "",
       city: "",
-      country: "",
+      country: "India",
       postalCode: "",
-      cardName: "",
-      cardNumber: "",
-      expiryDate: "",
-      cvc: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Order placed:", values);
-    toast({
-        title: "Order Placed!",
-        description: "Thank you for your purchase. Your order is being processed.",
-    });
-    clearCart();
-    // Here you would typically redirect to an order confirmation page
+  useEffect(() => {
+    if(user) {
+        form.setValue('email', user.email);
+        form.setValue('firstName', user.firstName);
+        form.setValue('lastName', user.lastName);
+    }
+  }, [user, form]);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+        document.body.removeChild(script);
+    }
+  }, []);
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (cartTotal <= 0) {
+      toast({
+        title: "Your cart is empty",
+        description: "Please add items to your cart before checking out.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_eJtA5tOqYFvQ9Z', // Fallback to a test key
+        amount: cartTotal * 100, // amount in the smallest currency unit
+        currency: "INR",
+        name: "Jalal Bazaar",
+        description: "Your Halal Marketplace Purchase",
+        handler: function (response: any) {
+            console.log("Razorpay Response:", response);
+            toast({
+                title: "Order Placed!",
+                description: `Thank you for your purchase. Payment ID: ${response.razorpay_payment_id}`,
+            });
+            clearCart();
+            // Here you would typically redirect to an order confirmation page
+            // and verify payment on your backend.
+        },
+        prefill: {
+            name: `${values.firstName} ${values.lastName}`,
+            email: values.email,
+        },
+        notes: {
+            address: `${values.address}, ${values.city}, ${values.postalCode}`,
+        },
+        theme: {
+            color: "#006B56" // Corresponds to your primary color
+        }
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
   }
 
   return (
@@ -144,7 +198,7 @@ export function CheckoutForm() {
                     <FormItem>
                     <FormLabel>Country</FormLabel>
                     <FormControl>
-                        <Input placeholder="USA" {...field} />
+                        <Input placeholder="India" {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -167,71 +221,8 @@ export function CheckoutForm() {
           </CardContent>
         </Card>
 
-        <Card>
-            <CardHeader>
-                <CardTitle className="font-headline text-2xl">Payment Details</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">We partner with Stripe for secure payments.</p>
-                <FormField
-                control={form.control}
-                name="cardName"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Name on Card</FormLabel>
-                    <FormControl>
-                        <Input placeholder="John M Doe" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-                <FormField
-                control={form.control}
-                name="cardNumber"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Card Number</FormLabel>
-                    <FormControl>
-                        <Input placeholder="•••• •••• •••• ••••" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-                <div className="grid grid-cols-2 gap-4">
-                     <FormField
-                        control={form.control}
-                        name="expiryDate"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Expiry (MM/YY)</FormLabel>
-                            <FormControl>
-                                <Input placeholder="MM/YY" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                     <FormField
-                        control={form.control}
-                        name="cvc"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>CVC</FormLabel>
-                            <FormControl>
-                                <Input placeholder="123" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                </div>
-            </CardContent>
-        </Card>
-
-        <Button type="submit" className="w-full" size="lg">
-          Place Order
+        <Button type="submit" className="w-full" size="lg" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? 'Processing...' : `Pay ₹${cartTotal.toFixed(2)} with Razorpay`}
         </Button>
       </form>
     </Form>
