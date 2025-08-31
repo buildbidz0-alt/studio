@@ -1,4 +1,5 @@
 
+
 export interface Product {
   id: string;
   name: {
@@ -35,24 +36,24 @@ const sellers: Seller[] = [
     name: 'Organic Halal Foods',
     description: 'Providers of the finest organic halal meats and produce since 2010. We believe in ethical farming and sustainable practices.',
     logoUrl: 'https://picsum.photos/200/200',
-    halalCertificationBody: 'Halal Food Council USA',
     imageHint: 'farmer market',
+    halalCertificationBody: 'Halal Food Council USA',
   },
   {
     id: 'seller-2',
     name: 'Modest Wear Co.',
     description: 'Elegant and modern modest apparel for every occasion. Our fabrics are sourced ethically and designed for comfort and style.',
     logoUrl: 'https://picsum.photos/200/200',
-    halalCertificationBody: 'N/A',
     imageHint: 'fashion boutique',
+    halalCertificationBody: 'N/A',
   },
   {
     id: 'seller-3',
     name: 'Pure Glow Cosmetics',
     description: '100% vegan, cruelty-free, and halal-certified cosmetics. Enhance your natural beauty with products that are kind to your skin and the planet.',
     logoUrl: 'https://picsum.photos/200/200',
-    halalCertificationBody: 'Islamic Society of North America (ISNA)',
     imageHint: 'makeup collection',
+    halalCertificationBody: 'Islamic Society of North America (ISNA)',
   }
 ];
 
@@ -71,11 +72,11 @@ let products: Product[] = [
     description: 'Cold-pressed extra virgin olive oil from the hills of Palestine. Perfect for salads, dips, and cooking. Rich in antioxidants and flavor.',
     price: 1999,
     imageUrls: ['https://images.unsplash.com/photo-1591122523233-22037c1dec9f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxvbGl2ZSUyMG9pbHxlbnwwfHx8fDE3NTY2NTYyMDZ8MA&ixlib=rb-4.1.0&q=80&w=1080', 'https://picsum.photos/600/400?random=1', 'https://picsum.photos/600/400?random=2'],
+    imageHint: 'olive oil',
     category: 'Food',
     sellerId: 'seller-1',
     isHalalCertified: true,
     status: 'approved',
-    imageHint: 'olive oil',
   },
   {
     id: 'prod-2',
@@ -91,11 +92,11 @@ let products: Product[] = [
     description: 'A beautiful, lightweight silk hijab in a timeless emerald green. Soft, breathable, and drapes elegantly for a sophisticated look.',
     price: 3600,
     imageUrls: ['https://images.unsplash.com/photo-1677478863154-55ecce8c7536?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzaWxrJTIwc2NhcmZ8ZW58MHx8fHwxNzU2NjU2MjA2fDA&ixlib=rb-4.1.0&q=80&w=1080'],
+    imageHint: 'silk scarf',
     category: 'Apparel',
     sellerId: 'seller-2',
     isHalalCertified: true,
     status: 'approved',
-    imageHint: 'silk scarf',
   },
   {
     id: 'prod-3',
@@ -111,11 +112,11 @@ let products: Product[] = [
     description: 'Hydrating and refreshing face mist made with pure Damask rosewater. Soothes skin, reduces redness, and provides a dewy glow.',
     price: 1480,
     imageUrls: ['https://images.unsplash.com/photo-1613803745799-ba6c10aace85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxza2luY2FyZSUyMHByb2R1Y3R8ZW58MHx8fHwxNzU2NjU2MjA2fDA&ixlib=rb-4.1.0&q=80&w=1080'],
+    imageHint: 'skincare product',
     category: 'Cosmetics',
     sellerId: 'seller-3',
     isHalalCertified: true,
     status: 'approved',
-    imageHint: 'skincare product',
   },
   {
     id: 'prod-4',
@@ -131,11 +132,11 @@ let products: Product[] = [
     description: 'Raw, unfiltered wildflower honey from local apiaries. A natural sweetener with antibacterial properties.',
     price: 1279,
     imageUrls: ['https://images.unsplash.com/photo-1669384536024-d091ddc00f4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxob25leSUyMGphcnxlbnwwfHx8fDE3NTY2NTYyMDZ8MA&ixlib=rb-4.1.0&q=80&w=1080'],
+    imageHint: 'honey jar',
     category: 'Food',
     sellerId: 'seller-1',
     isHalalCertified: true,
     status: 'approved',
-    imageHint: 'honey jar',
   },
   {
     id: 'prod-5',
@@ -151,11 +152,11 @@ let products: Product[] = [
     description: 'Plush and comfortable prayer mat with geometric Kufic calligraphy design. Non-slip backing and premium quality.',
     price: 2800,
     imageUrls: ['https://images.unsplash.com/photo-1589725617150-0ef95799033f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwcmF5ZXIlMjBydWd8ZW58MHx8fHwxNzU2NjU2MjA2fDA&ixlib=rb-4.1.0&q=80&w=1080'],
+    imageHint: 'prayer rug',
     category: 'Home Goods',
     sellerId: 'seller-2',
     isHalalCertified: true,
     status: 'approved',
-    imageHint: 'prayer rug',
   },
   {
     id: 'prod-6',
@@ -171,11 +172,11 @@ let products: Product[] = [
     description: 'A traditional and natural way to clean teeth. Harvested from the Salvadora persica tree, it has numerous dental benefits.',
     price: 479,
     imageUrls: ['https://images.unsplash.com/photo-1680382091603-46e766b5b129?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxuYXR1cmFsJTIwdG9vdGhicnVzaHxlbnwwfHx8fDE3NTY2NTYyMDZ8MA&ixlib=rb-4.1.0&q=80&w=1080'],
+    imageHint: 'natural toothbrush',
     category: 'Cosmetics',
     sellerId: 'seller-1',
     isHalalCertified: true,
     status: 'approved',
-    imageHint: 'natural toothbrush',
   },
   {
     id: 'prod-7',
@@ -191,11 +192,11 @@ let products: Product[] = [
     description: 'A delicious and healthy spread made from Medjool dates, cinnamon, and cardamom. Perfect on toast or with fruit.',
     price: 960,
     imageUrls: ['https://images.unsplash.com/photo-1607668373611-05ca896e1e25?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxkYXRlJTIwZnJ1aXR8ZW58MHx8fHwxNzU2NjU2MjA2fDA&ixlib=rb-4.1.0&q=80&w=1080'],
+    imageHint: 'date fruit',
     category: 'Food',
     sellerId: 'seller-1',
     isHalalCertified: true,
     status: 'approved',
-    imageHint: 'date fruit',
   },
   {
     id: 'prod-8',
@@ -211,11 +212,11 @@ let products: Product[] = [
     description: 'A breathable and stylish open abaya made from 100% linen. Perfect for layering in any season.',
     price: 7199,
     imageUrls: ['https://images.unsplash.com/photo-1668028554854-245f8ccae15b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtb2Rlc3QlMjBmYXNoaW9ufGVufDB8fHx8MTc1NjY1NjIwNnww&ixlib=rb-4.1.0&q=80&w=1080'],
+    imageHint: 'modest fashion',
     category: 'Apparel',
     sellerId: 'seller-2',
     isHalalCertified: true,
     status: 'approved',
-    imageHint: 'modest fashion',
   },
   {
     id: 'prod-9',
@@ -364,14 +365,7 @@ export async function getAllProducts(): Promise<Product[]> {
 
 
 export async function getProductById(id: string): Promise<Product | undefined> {
-  const product = products.find(p => p.id === id);
-  // In a real app, you might have different logic for admins/sellers vs customers
-  if (product?.status !== 'approved') {
-      // For this prototype, we allow direct access to non-approved products
-      // In a real app, you'd add role-based access control here
-      return product;
-  }
-  return product;
+  return products.find(p => p.id === id);
 }
 
 export async function getProductsByIds(ids: string[]): Promise<Product[]> {

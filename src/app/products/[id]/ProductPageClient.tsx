@@ -1,10 +1,9 @@
 
 "use client";
 
-import { useState, useEffect, use } from "react";
-import { getProductById, getSellerById, getProductsBySellerId, type Product, type Seller } from "@/lib/data";
+import { useState, useEffect } from "react";
+import { type Product, type Seller } from "@/lib/data";
 import Image from "next/image";
-import { notFound } from "next/navigation";
 import { ShieldCheck, AlertTriangle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { AddToCartButton } from "@/components/product/AddToCartButton";
@@ -14,82 +13,74 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AddToWishlistButton } from "@/components/product/AddToWishlistButton";
 import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/use-auth";
 import { useLanguage } from "@/hooks/use-language";
 
 
-type ProductPageProps = {
-  params: Promise<{
-    id: string;
-  }>;
+type ProductPageClientProps = {
+  product: Product,
+  seller?: Seller,
+  otherProducts: Product[]
 };
 
-// This is the old page component. It is being replaced by a Server Component (`page.tsx`)
-// and a client component (`ProductPageClient.tsx`).
-// This file can be deleted. For now, it is renamed.
-export default function ProductPageOLD({ params: paramsPromise }: ProductPageProps) {
-  const params = use(paramsPromise);
-  const [product, setProduct] = useState<Product | null>(null);
-  const [seller, setSeller] = useState<any>(null);
-  const [otherProducts, setOtherProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+export function ProductPageClient({ product, seller, otherProducts }: ProductPageClientProps) {
   const [activeImage, setActiveImage] = useState(0);
   const { user } = useAuth();
   const { language } = useLanguage();
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-        setLoading(true);
-        const productData = await getProductById(params.id);
-        if (!productData) {
-            notFound();
-        }
+    setIsMounted(true);
+  }, []);
 
-        // Customer/guest can only see approved products. Seller can see their own pending products. Admin can see all.
-        if (productData.status !== 'approved' && user?.role !== 'admin' && !(user?.role === 'seller' && user.id === productData.sellerId)) {
-            notFound();
-        }
-
-        setProduct(productData);
-
-        const sellerData = await getSellerById(productData.sellerId);
-        setSeller(sellerData);
-        
-        const otherProductsData = (await getProductsBySellerId(productData.sellerId))
-            .filter(p => p.id !== productData.id && p.status === 'approved')
-            .slice(0, 3);
-        setOtherProducts(otherProductsData);
-        setLoading(false);
-    }
-    fetchData();
-  }, [params.id, user]);
-
-
-  if (loading || !product) {
-    return (
+  if (!isMounted) {
+     return (
         <div className="container mx-auto max-w-6xl py-12">
             <div className="grid md:grid-cols-2 gap-12">
                 <div>
-                    <Skeleton className="aspect-square w-full rounded-lg" />
-                    <div className="mt-4 grid grid-cols-5 gap-4">
-                        {[...Array(4)].map((_, i) => <Skeleton key={i} className="aspect-square w-full rounded-md" />)}
+                    <Card className="overflow-hidden">
+                        <CardContent className="p-0">
+                            <div className="relative aspect-square w-full bg-muted animate-pulse" />
+                        </CardContent>
+                    </Card>
+                     <div className="mt-4 grid grid-cols-5 gap-4">
+                        {[...Array(4)].map((_, i) => <div key={i} className="aspect-square w-full rounded-md bg-muted animate-pulse" />)}
                     </div>
                 </div>
+                
                 <div className="flex flex-col space-y-4">
-                    <Skeleton className="h-6 w-24 rounded-md" />
-                    <Skeleton className="h-12 w-3/4 rounded-md" />
-                    <Skeleton className="h-10 w-1/3 rounded-md" />
-                    <Skeleton className="h-24 w-full rounded-md" />
-                    <Skeleton className="h-8 w-1/2 rounded-md" />
+                    <div className="h-6 w-24 rounded-md bg-muted animate-pulse" />
+                    <div className="h-12 w-3/4 rounded-md bg-muted animate-pulse" />
+                    <div className="h-10 w-1/3 rounded-md bg-muted animate-pulse" />
+                    <div className="h-24 w-full rounded-md bg-muted animate-pulse" />
+                    <div className="h-8 w-1/2 rounded-md bg-muted animate-pulse" />
                     <div className="flex gap-4">
-                        <Skeleton className="h-12 w-40 rounded-md" />
-                        <Skeleton className="h-12 w-40 rounded-md" />
+                         <div className="h-12 w-40 rounded-md bg-muted animate-pulse" />
+                        <div className="h-12 w-40 rounded-md bg-muted animate-pulse" />
                     </div>
                 </div>
             </div>
         </div>
     )
+  }
+
+  // Customer/guest can only see approved products. Seller can see their own pending products. Admin can see all.
+  if (product.status !== 'approved' && user?.role !== 'admin' && !(user?.role === 'seller' && user.id === product.sellerId)) {
+      return (
+        <div className="container mx-auto py-24 flex items-center justify-center">
+            <Card className="w-[400px]">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <AlertTriangle className="text-destructive" />
+                        Product Not Available
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p>This product is currently not available for viewing.</p>
+                </CardContent>
+            </Card>
+        </div>
+      )
   }
 
   return (
@@ -202,4 +193,3 @@ export default function ProductPageOLD({ params: paramsPromise }: ProductPagePro
     </div>
   );
 }
-
