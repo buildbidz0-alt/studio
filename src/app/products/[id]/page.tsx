@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { getProductById, getSellerById, getProductsBySellerId, type Product } from "@/lib/data";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -20,12 +20,13 @@ import { useAuth } from "@/hooks/use-auth";
 
 
 type ProductPageProps = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
-export default function ProductPage({ params }: ProductPageProps) {
+export default function ProductPage({ params: paramsPromise }: ProductPageProps) {
+  const params = use(paramsPromise);
   const [product, setProduct] = useState<Product | null>(null);
   const [seller, setSeller] = useState<any>(null);
   const [otherProducts, setOtherProducts] = useState<Product[]>([]);
