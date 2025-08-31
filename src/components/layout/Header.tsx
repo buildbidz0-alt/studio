@@ -70,7 +70,7 @@ export function Header() {
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <CrescentMoonIcon className="h-6 w-6 text-secondary" />
             <span className="hidden font-bold sm:inline-block font-headline text-lg">
-              LuxHalal
+              Jalal Bazaar
             </span>
           </Link>
           <nav className="flex items-center gap-6 text-sm font-body">
@@ -117,7 +117,7 @@ export function Header() {
                     <Link href="/" className="flex items-center space-x-2">
                         <CrescentMoonIcon className="h-6 w-6 text-secondary" />
                         <span className="font-bold font-headline text-lg">
-                            LuxHalal
+                            Jalal Bazaar
                         </span>
                     </Link>
                  </div>

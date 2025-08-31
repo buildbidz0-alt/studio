@@ -13,7 +13,7 @@ export function Wishlist() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-headline text-2xl">My Majlis</CardTitle>
+        <CardTitle className="font-headline text-2xl">Wishlist</CardTitle>
         <CardDescription>Your favorite items, all in one place.</CardDescription>
       </CardHeader>
       <CardContent>

@@ -30,7 +30,7 @@ export function AddToCartButton({ product, quantity = 1, showIcon = false }: Add
   return (
     <Button onClick={handleAddToCart} className="gap-2">
       <ShoppingCart className="h-4 w-4" />
-      <span>Add to Majlis</span>
+      <span>Add to Cart</span>
     </Button>
   );
 }

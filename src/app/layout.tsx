@@ -22,8 +22,8 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  title: 'LuxHalal',
-  description: 'LuxHalal is the world\'s first luxury halal marketplace — bringing certified excellence to the global Muslim elite.',
+  title: 'Jalal Bazaar',
+  description: 'A marketplace for authentic halal products.',
 };
 
 export default function RootLayout({

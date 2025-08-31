@@ -24,13 +24,13 @@ export default async function Home() {
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white">
           <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl">
-            Where Faith Meets Luxury
+            Authentic Halal Products
           </h1>
           <p className="mt-4 max-w-2xl font-body text-lg md:text-xl">
-            Discover a world of premium halal-certified products, curated with elegance and verified for authenticity.
+            Discover a curated marketplace of the finest halal products, verified for your peace of mind.
           </p>
           <Button asChild size="lg" className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90">
-            <Link href="/products">Enter the Collection</Link>
+            <Link href="/products">Shop Now</Link>
           </Button>
         </div>
       </section>

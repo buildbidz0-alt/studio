@@ -35,11 +35,11 @@ export function Footer() {
           <div className="flex items-center space-x-2">
             <CrescentMoonIcon className="h-6 w-6 text-secondary" />
             <span className="font-bold sm:inline-block font-headline text-lg">
-                LuxHalal
+                Jalal Bazaar
             </span>
           </div>
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left font-body">
-            © {new Date().getFullYear()} LuxHalal. Halal. Heritage. Haute.
+            © {new Date().getFullYear()} Jalal Bazaar. All rights reserved.
           </p>
         </div>
         <div className="flex flex-col items-center gap-4 md:items-end">
