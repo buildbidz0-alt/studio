@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -155,10 +156,12 @@ export default function ProductPage({ params }: ProductPageProps) {
             </div>
           )}
           
-          <div className="mt-8 flex flex-col sm:flex-row gap-4">
-            <AddToCartButton product={product} />
-            <AddToWishlistButton product={product} />
-          </div>
+          {user?.role !== 'admin' && (
+            <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                <AddToCartButton product={product} />
+                <AddToWishlistButton product={product} />
+            </div>
+           )}
 
           {seller && (
             <>

@@ -1,3 +1,6 @@
+
+"use client";
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { ShieldCheck } from 'lucide-react';
@@ -12,12 +15,15 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { AddToCartButton } from './AddToCartButton';
 import { WishlistIconButton } from './WishlistIconButton';
+import { useAuth } from '@/hooks/use-auth';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const { user } = useAuth();
+  
   return (
     <Card className="group flex flex-col overflow-hidden rounded-lg shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <Link href={`/products/${product.id}`} className="flex-grow flex flex-col">
@@ -31,9 +37,11 @@ export function ProductCard({ product }: ProductCardProps) {
               data-ai-hint={product.imageHint}
             />
           </div>
-          <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <WishlistIconButton product={product} />
-          </div>
+          {user?.role !== 'admin' && (
+            <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <WishlistIconButton product={product} />
+            </div>
+          )}
         </CardHeader>
         <CardContent className="p-4 flex-grow">
           <Badge variant="secondary" className="mb-2">{product.category}</Badge>
@@ -54,7 +62,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 </div>
             )}
         </div>
-        <AddToCartButton product={product} />
+        {user?.role !== 'admin' && <AddToCartButton product={product} />}
       </CardFooter>
     </Card>
   );
