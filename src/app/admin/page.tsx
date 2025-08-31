@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UserManagement } from "@/components/admin/UserManagement";
 import { AuditLog } from "@/components/admin/AuditLog";
 import { ProductApprovals } from "@/components/admin/ProductApprovals";
+import { ProductManagement } from "@/components/admin/ProductManagement";
 
 export default function AdminDashboardPage() {
   return (
@@ -80,14 +81,18 @@ export default function AdminDashboardPage() {
         <Tabs defaultValue="users">
           <TabsList className="mb-4">
             <TabsTrigger value="users">User Management</TabsTrigger>
-            <TabsTrigger value="products">Product Approvals</TabsTrigger>
+            <TabsTrigger value="approvals">Product Approvals</TabsTrigger>
+            <TabsTrigger value="products">Product Management</TabsTrigger>
             <TabsTrigger value="audit">Audit Log</TabsTrigger>
           </TabsList>
           <TabsContent value="users">
             <UserManagement />
           </TabsContent>
-          <TabsContent value="products">
+          <TabsContent value="approvals">
             <ProductApprovals />
+          </TabsContent>
+          <TabsContent value="products">
+            <ProductManagement />
           </TabsContent>
           <TabsContent value="audit">
             <AuditLog />

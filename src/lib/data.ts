@@ -215,6 +215,21 @@ export async function addProduct(productData: Omit<Product, 'id' | 'status'>): P
   return newProduct;
 }
 
+export async function updateProduct(productId: string, updateData: Partial<Omit<Product, 'id'>>): Promise<Product | null> {
+  const productIndex = products.findIndex(p => p.id === productId);
+  if (productIndex !== -1) {
+    products[productIndex] = { ...products[productIndex], ...updateData };
+    return products[productIndex];
+  }
+  return null;
+}
+
+export async function deleteProduct(productId: string): Promise<boolean> {
+  const initialLength = products.length;
+  products = products.filter(p => p.id !== productId);
+  return products.length < initialLength;
+}
+
 
 export async function getProducts(options?: { category?: string; search?: string }): Promise<Product[]> {
   let filteredProducts = products.filter(p => p.status === 'approved');
@@ -233,6 +248,10 @@ export async function getProducts(options?: { category?: string; search?: string
 
 export async function getPendingProducts(): Promise<Product[]> {
   return products.filter(p => p.status === 'pending');
+}
+
+export async function getAllProducts(): Promise<Product[]> {
+  return products;
 }
 
 
