@@ -113,7 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // In a real app, you would also verify the password hash
         const foundUser = users.find(u => u.email === lowerCaseEmail);
 
-        if (foundUser && ((lowerCaseEmail === 'admin@jalalbazaar.com' && password === '596847464j') || password === 'password123')) {
+        if (foundUser && ((lowerCaseEmail === 'admin@jalalbazaar.com' && password === '5968474644j') || password === 'password123')) {
           
           if (foundUser.role === 'seller' && foundUser.status !== 'approved') {
             persistUser(foundUser);
