@@ -1,3 +1,5 @@
+"use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -5,10 +7,24 @@ import { getProducts } from '@/lib/data';
 import { ProductCard } from '@/components/product/ProductCard';
 import { PersonalizedRecommendations } from '@/components/product/PersonalizedRecommendations';
 import { ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/hooks/use-language';
+import { useEffect, useState } from 'react';
+import type { Product } from '@/lib/data';
 
-export default async function Home() {
-  const allProducts = await getProducts();
-  const featuredProducts = allProducts.slice(0, 8);
+export default function Home() {
+  const { t } = useLanguage();
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchAndSetProducts = async () => {
+        const products = await getProducts();
+        setAllProducts(products);
+        setFeaturedProducts(products.slice(0, 8));
+    }
+    fetchAndSetProducts();
+  }, [])
+
 
   return (
     <div className="flex flex-col">
@@ -24,13 +40,13 @@ export default async function Home() {
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white">
           <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl">
-            Where Faith Meets Luxury
+            {t('hero_headline')}
           </h1>
           <p className="mt-4 max-w-2xl font-body text-lg md:text-xl">
-            Discover a world of premium halal-certified products, curated with elegance and verified for authenticity.
+            {t('hero_subtext')}
           </p>
           <Button asChild size="lg" className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90">
-            <Link href="/products">Enter the Collection</Link>
+            <Link href="/products">{t('hero_cta')}</Link>
           </Button>
         </div>
       </section>

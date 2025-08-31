@@ -13,6 +13,7 @@ import {
   Store,
   Briefcase,
   Settings,
+  Languages,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,8 +31,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu"
 import { Separator } from "../ui/separator";
+import { useLanguage } from "@/hooks/use-language";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -62,6 +66,7 @@ function CrescentMoonIcon(props: React.SVGProps<SVGSVGElement>) {
 export function Header() {
   const { cartCount } = useCart();
   const { user, logout } = useAuth();
+  const { language, setLanguage } = useLanguage();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -152,6 +157,23 @@ export function Header() {
           </div>
           
           <nav className="flex items-center">
+             <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                        <Languages className="h-5 w-5" />
+                        <span className="sr-only">Change language</span>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuRadioGroup value={language} onValueChange={setLanguage}>
+                        <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="hi">Hindi</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="ur">Urdu</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="ar">Arabic</DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                </DropdownMenuContent>
+            </DropdownMenu>
+
             <Button variant="ghost" size="icon">
               <Search className="h-5 w-5" />
               <span className="sr-only">Search</span>
