@@ -196,19 +196,22 @@ export function ProductForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Product Image</FormLabel>
-              <FormControl>
-                <div className="w-full border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center cursor-pointer hover:border-primary transition-colors">
-                    <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
-                    <p className="mt-2 text-sm text-muted-foreground">Click to upload or drag and drop</p>
-                    <p className="text-xs text-muted-foreground">PNG, JPG, or WEBP (max 5MB)</p>
-                    <Input 
-                        type="file" 
-                        className="hidden" 
-                        {...form.register("image")}
-                        onChange={handleImageChange}
-                        accept=".jpg,.jpeg,.png,.webp"
-                    />
-                </div>
+                <FormControl>
+                    <label className="w-full border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center cursor-pointer hover:border-primary transition-colors block">
+                        <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
+                        <p className="mt-2 text-sm text-muted-foreground">Click to upload or drag and drop</p>
+                        <p className="text-xs text-muted-foreground">PNG, JPG, or WEBP (max 5MB)</p>
+                        <Input 
+                            type="file" 
+                            className="hidden" 
+                            {...form.register("image")}
+                            onChange={(e) => {
+                                field.onChange(e.target.files)
+                                handleImageChange(e)
+                            }}
+                            accept=".jpg,.jpeg,.png,.webp"
+                        />
+                    </label>
               </FormControl>
               <FormMessage />
             </FormItem>
