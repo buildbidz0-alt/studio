@@ -28,13 +28,21 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { addProduct, type Product } from "@/lib/data";
+import Image from "next/image";
+import { UploadCloud } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(3, "Product name must be at least 3 characters."),
   description: z.string().min(10, "Description must be at least 10 characters."),
   price: z.coerce.number().positive("Price must be a positive number."),
   category: z.enum(['Food', 'Cosmetics', 'Apparel', 'Home Goods']),
-  imageUrl: z.string().url("Please enter a valid image URL."),
+  image: z.any()
+    .refine((files) => files?.length == 1, "Image is required.")
+    .refine((files) => files?.[0]?.size <= 5000000, `Max file size is 5MB.`)
+    .refine(
+      (files) => ["image/jpeg", "image/png", "image/webp"].includes(files?.[0]?.type),
+      "Only .jpg, .png and .webp formats are supported."
+    ),
   isHalalCertified: z.boolean().default(false),
   imageHint: z.string().optional(),
 });
@@ -43,6 +51,7 @@ export function ProductForm() {
   const { user } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,11 +60,23 @@ export function ProductForm() {
       description: "",
       price: 0,
       category: "Food",
-      imageUrl: "https://picsum.photos/600/400",
       isHalalCertified: true,
       imageHint: "",
     },
   });
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setImagePreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+    } else {
+        setImagePreview(null);
+    }
+  }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!user || user.role !== 'seller') {
@@ -67,8 +88,27 @@ export function ProductForm() {
         return;
     }
     
+    if (!imagePreview) {
+        toast({
+            title: "Image required",
+            description: "Please upload an image for the product.",
+            variant: "destructive"
+        });
+        return;
+    }
+
     try {
-        await addProduct({ ...values, sellerId: user.id });
+        const productData = {
+            name: values.name,
+            description: values.description,
+            price: values.price,
+            category: values.category,
+            isHalalCertified: values.isHalalCertified,
+            imageHint: values.imageHint,
+            imageUrl: imagePreview,
+            sellerId: user.id
+        }
+        await addProduct(productData);
         toast({
             title: "Product Added!",
             description: `${values.name} has been successfully listed.`,
@@ -152,20 +192,36 @@ export function ProductForm() {
         </div>
         <FormField
           control={form.control}
-          name="imageUrl"
+          name="image"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Product Image URL</FormLabel>
+              <FormLabel>Product Image</FormLabel>
               <FormControl>
-                <Input placeholder="https://your-image-url.com/image.png" {...field} />
+                <div className="w-full border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center cursor-pointer hover:border-primary transition-colors">
+                    <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
+                    <p className="mt-2 text-sm text-muted-foreground">Click to upload or drag and drop</p>
+                    <p className="text-xs text-muted-foreground">PNG, JPG, or WEBP (max 5MB)</p>
+                    <Input 
+                        type="file" 
+                        className="hidden" 
+                        {...form.register("image")}
+                        onChange={handleImageChange}
+                        accept=".jpg,.jpeg,.png,.webp"
+                    />
+                </div>
               </FormControl>
-               <FormDescription>
-                For now, please use a placeholder URL from a service like picsum.photos.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+        {imagePreview && (
+            <div>
+                <FormLabel>Image Preview</FormLabel>
+                <div className="mt-2 relative w-full aspect-video rounded-md overflow-hidden border">
+                    <Image src={imagePreview} alt="Image Preview" fill className="object-cover" />
+                </div>
+            </div>
+        )}
          <FormField
           control={form.control}
           name="imageHint"
