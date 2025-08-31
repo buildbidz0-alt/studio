@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Lato, Playfair_Display } from 'next/font/google';
+import { Belleza, Alegreya } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/layout/Header';
@@ -10,16 +10,16 @@ import { WishlistProvider } from '@/hooks/use-wishlist';
 import { AuthProvider } from '@/hooks/use-auth';
 import { LanguageProvider } from '@/hooks/use-language';
 
-const playfairDisplay = Playfair_Display({
+const belleza = Belleza({
   subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-playfair-display',
+  weight: ['400'],
+  variable: '--font-belleza',
 });
 
-const lato = Lato({
+const alegreya = Alegreya({
   subsets: ['latin'],
   weight: ['400', '700'],
-  variable: '--font-lato',
+  variable: '--font-alegreya',
 });
 
 export const metadata: Metadata = {
@@ -37,10 +37,10 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Belleza&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
       </head>
-      <body className={cn('min-h-screen bg-background font-body antialiased', playfairDisplay.variable, lato.variable)}>
+      <body className={cn('min-h-screen bg-background font-body antialiased', belleza.variable, alegreya.variable)}>
         <LanguageProvider>
           <AuthProvider>
             <CartProvider>
