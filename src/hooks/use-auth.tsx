@@ -13,6 +13,10 @@ export interface User {
   role: 'customer' | 'seller' | 'admin';
   storeName?: string;
   status?: 'pending' | 'approved' | 'rejected';
+  gstNumber?: string;
+  bankAccountNumber?: string;
+  businessDetails?: string;
+  documentUrl?: string; // for storing uploaded document path
 }
 
 interface AuthContextType {
@@ -43,7 +47,10 @@ const MOCK_USERS_INITIAL_STATE: User[] = [
         email: "seller@example.com",
         role: 'seller',
         storeName: "Fatima's Finest Fabrics",
-        status: 'approved'
+        status: 'approved',
+        gstNumber: '22AAAAA0000A1Z5',
+        bankAccountNumber: '123456789012',
+        businessDetails: 'Selling high-quality fabrics since 2015.'
     },
     {
         id: "admin-user-id",
@@ -97,7 +104,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (foundUser && ((lowerCaseEmail === 'admin@jalalbazaar.com' && password === '596847464j') || password === 'password123')) {
           
           if (foundUser.role === 'seller' && foundUser.status !== 'approved') {
-            reject(new Error("Your seller account is not approved. Please contact support."));
+            setUser(foundUser);
+            window.localStorage.setItem('jalal-bazaar-user', JSON.stringify(foundUser));
+            router.push('/seller/dashboard'); // Redirect to dashboard to see status
+            resolve();
             return;
           }
           
