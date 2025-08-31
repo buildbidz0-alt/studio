@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useForm } from "react-hook-form";
@@ -21,6 +22,7 @@ import { useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { AlertCircle, UploadCloud } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/hooks/use-language";
 
 const formSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters."),
@@ -38,6 +40,7 @@ const formSchema = z.object({
 export function SellerSignupForm() {
   const { signup } = useAuth();
   const [error, setError] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -92,9 +95,9 @@ export function SellerSignupForm() {
             name="firstName"
             render={({ field }) => (
                 <FormItem>
-                <FormLabel>First Name</FormLabel>
+                <FormLabel>{t('seller_form_first_name')}</FormLabel>
                 <FormControl>
-                    <Input placeholder="John" {...field} />
+                    <Input placeholder={t('seller_form_first_name_placeholder')} {...field} />
                 </FormControl>
                 <FormMessage />
                 </FormItem>
@@ -105,9 +108,9 @@ export function SellerSignupForm() {
             name="lastName"
             render={({ field }) => (
                 <FormItem>
-                <FormLabel>Last Name</FormLabel>
+                <FormLabel>{t('seller_form_last_name')}</FormLabel>
                 <FormControl>
-                    <Input placeholder="Doe" {...field} />
+                    <Input placeholder={t('seller_form_last_name_placeholder')} {...field} />
                 </FormControl>
                 <FormMessage />
                 </FormItem>
@@ -119,9 +122,9 @@ export function SellerSignupForm() {
           name="storeName"
           render={({ field }) => (
               <FormItem>
-              <FormLabel>Store Name</FormLabel>
+              <FormLabel>{t('seller_form_store_name')}</FormLabel>
               <FormControl>
-                  <Input placeholder="My Awesome Store" {...field} />
+                  <Input placeholder={t('seller_form_store_name_placeholder')} {...field} />
               </FormControl>
               <FormMessage />
               </FormItem>
@@ -132,7 +135,7 @@ export function SellerSignupForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('seller_form_email')}</FormLabel>
               <FormControl>
                 <Input placeholder="name@example.com" {...field} />
               </FormControl>
@@ -145,7 +148,7 @@ export function SellerSignupForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>{t('seller_form_password')}</FormLabel>
               <FormControl>
                 <Input type="password" {...field} />
               </FormControl>
@@ -158,9 +161,9 @@ export function SellerSignupForm() {
           name="businessDetails"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>About Your Business</FormLabel>
+              <FormLabel>{t('seller_form_business_details')}</FormLabel>
               <FormControl>
-                <Textarea placeholder="Describe your business, the products you sell, and your halal certification status..." {...field} />
+                <Textarea placeholder={t('seller_form_business_details_placeholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -172,9 +175,9 @@ export function SellerSignupForm() {
             name="bankAccountNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Bank Account Number</FormLabel>
+                <FormLabel>{t('seller_form_bank_account')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your bank account number" {...field} />
+                  <Input placeholder={t('seller_form_bank_account_placeholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -185,9 +188,9 @@ export function SellerSignupForm() {
             name="ifscCode"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>IFSC Code</FormLabel>
+                <FormLabel>{t('seller_form_ifsc_code')}</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your bank's IFSC code" {...field} />
+                  <Input placeholder={t('seller_form_ifsc_code_placeholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -199,9 +202,9 @@ export function SellerSignupForm() {
             name="gstNumber"
             render={({ field }) => (
             <FormItem>
-                <FormLabel>GST Number</FormLabel>
+                <FormLabel>{t('seller_form_gst')}</FormLabel>
                 <FormControl>
-                <Input placeholder="GSTIN (optional)" {...field} />
+                <Input placeholder={t('seller_form_gst_placeholder')} {...field} />
                 </FormControl>
                 <FormMessage />
             </FormItem>
@@ -212,12 +215,12 @@ export function SellerSignupForm() {
           name="document"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Verification Document</FormLabel>
+              <FormLabel>{t('seller_form_document')}</FormLabel>
                 <FormControl>
                     <label className="w-full border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center cursor-pointer hover:border-primary transition-colors block">
                         <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
-                        <p className="mt-2 text-sm text-muted-foreground">Click to upload document</p>
-                        <p className="text-xs text-muted-foreground">(e.g., GST Certificate, Business License)</p>
+                        <p className="mt-2 text-sm text-muted-foreground">{t('seller_form_document_upload')}</p>
+                        <p className="text-xs text-muted-foreground">{t('seller_form_document_upload_desc')}</p>
                         <Input 
                             type="file" 
                             className="hidden" 
@@ -226,7 +229,7 @@ export function SellerSignupForm() {
                     </label>
               </FormControl>
                <FormDescription>
-                 {field.value?.[0]?.name ? `Selected file: ${field.value[0].name}` : 'No file selected.'}
+                 {field.value?.[0]?.name ? `${t('seller_form_document_selected')} ${field.value[0].name}` : t('seller_form_document_none')}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -234,7 +237,7 @@ export function SellerSignupForm() {
         />
 
         <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-           {form.formState.isSubmitting ? 'Submitting for review...' : 'Create Account & Submit for Review'}
+           {form.formState.isSubmitting ? t('seller_form_submitting_button') : t('seller_form_submit_button')}
         </Button>
       </form>
     </Form>
