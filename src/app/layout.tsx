@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Alegreya, Belleza } from 'next/font/google';
+import { Lato, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/layout/Header';
@@ -9,20 +9,21 @@ import { CartProvider } from '@/hooks/use-cart';
 import { WishlistProvider } from '@/hooks/use-wishlist';
 import { AuthProvider } from '@/hooks/use-auth';
 
-const belleza = Belleza({
+const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-belleza',
+  weight: ['400', '700'],
+  variable: '--font-playfair-display',
 });
 
-const alegreya = Alegreya({
+const lato = Lato({
   subsets: ['latin'],
-  variable: '--font-alegreya',
+  weight: ['400', '700'],
+  variable: '--font-lato',
 });
 
 export const metadata: Metadata = {
-  title: 'Jalal Bazaar',
-  description: 'Authentic Halal Products Marketplace',
+  title: 'LuxHalal',
+  description: 'LuxHalal is the world\'s first luxury halal marketplace — bringing certified excellence to the global Muslim elite.',
 };
 
 export default function RootLayout({
@@ -35,10 +36,10 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Belleza&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet" />
       </head>
-      <body className={cn('min-h-screen bg-background font-body antialiased', belleza.variable, alegreya.variable)}>
+      <body className={cn('min-h-screen bg-background font-body antialiased', playfairDisplay.variable, lato.variable)}>
         <AuthProvider>
           <CartProvider>
             <WishlistProvider>

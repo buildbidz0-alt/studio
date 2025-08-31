@@ -20,7 +20,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
           return [];
       }
       try {
-          const item = window.localStorage.getItem('jalal-bazaar-wishlist');
+          const item = window.localStorage.getItem('luxhalal-wishlist');
           return item ? JSON.parse(item) : [];
       } catch (error) {
           console.error(error);
@@ -31,7 +31,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-        window.localStorage.setItem('jalal-bazaar-wishlist', JSON.stringify(wishlistItems));
+        window.localStorage.setItem('luxhalal-wishlist', JSON.stringify(wishlistItems));
     } catch (error) {
         console.error(error);
     }
@@ -43,8 +43,8 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         return prevItems;
       }
       toast({
-        title: "Added to wishlist",
-        description: `${product.name} has been added to your wishlist.`,
+        title: "Added to My Majlis",
+        description: `${product.name} has been added to your Majlis.`,
       });
       return [...prevItems, product];
     });
@@ -57,8 +57,8 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     );
     if(itemToRemove) {
       toast({
-        title: "Removed from wishlist",
-        description: `${itemToRemove.name} has been removed from your wishlist.`,
+        title: "Removed from My Majlis",
+        description: `${itemToRemove.name} has been removed from your Majlis.`,
         variant: 'destructive'
       });
     }

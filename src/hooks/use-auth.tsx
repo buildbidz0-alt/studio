@@ -60,7 +60,7 @@ const MOCK_USERS_INITIAL_STATE: User[] = [
         id: "admin-user-id",
         firstName: "Admin",
         lastName: "User",
-        email: "admin@jalalbazaar.com",
+        email: "admin@luxhalal.com",
         role: 'admin'
     }
 ];
@@ -74,8 +74,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const storedUser = window.localStorage.getItem('jalal-bazaar-user');
-      const storedUsers = window.localStorage.getItem('jalal-bazaar-users');
+      const storedUser = window.localStorage.getItem('luxhalal-user');
+      const storedUsers = window.localStorage.getItem('luxhalal-users');
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }
@@ -83,7 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUsers(JSON.parse(storedUsers));
       } else {
         setUsers(MOCK_USERS_INITIAL_STATE);
-        window.localStorage.setItem('jalal-bazaar-users', JSON.stringify(MOCK_USERS_INITIAL_STATE));
+        window.localStorage.setItem('luxhalal-users', JSON.stringify(MOCK_USERS_INITIAL_STATE));
       }
     } catch (error) {
       console.error("Failed to parse from localStorage", error);
@@ -95,15 +95,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const persistUsers = (newUsers: User[]) => {
       setUsers(newUsers);
-      window.localStorage.setItem('jalal-bazaar-users', JSON.stringify(newUsers));
+      window.localStorage.setItem('luxhalal-users', JSON.stringify(newUsers));
   }
 
    const persistUser = (newUser: User | null) => {
       setUser(newUser);
       if (newUser) {
-        window.localStorage.setItem('jalal-bazaar-user', JSON.stringify(newUser));
+        window.localStorage.setItem('luxhalal-user', JSON.stringify(newUser));
       } else {
-        window.localStorage.removeItem('jalal-bazaar-user');
+        window.localStorage.removeItem('luxhalal-user');
       }
   }
 
@@ -114,7 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // In a real app, you would also verify the password hash
         const foundUser = users.find(u => u.email === lowerCaseEmail);
 
-        if (foundUser && ((lowerCaseEmail === 'admin@jalalbazaar.com' && password === '5968474644j') || password === 'password123')) {
+        if (foundUser && ((lowerCaseEmail === 'admin@luxhalal.com' && password === '5968474644j') || password === 'password123')) {
           
           if (foundUser.role === 'seller' && foundUser.status !== 'approved') {
             persistUser(foundUser);

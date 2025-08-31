@@ -42,7 +42,7 @@ export default function ProfilePage() {
         <TabsList className="flex flex-row overflow-x-auto md:overflow-x-visible md:flex-col h-auto md:h-full justify-start items-start bg-transparent p-0 border-b md:border-b-0 md:border-r w-full md:w-48">
           <TabsTrigger value="details" className="w-full justify-start text-base data-[state=active]:bg-muted data-[state=active]:text-primary">My Details</TabsTrigger>
           <TabsTrigger value="orders" className="w-full justify-start text-base data-[state=active]:bg-muted data-[state=active]:text-primary">Order History</TabsTrigger>
-          <TabsTrigger value="wishlist" className="w-full justify-start text-base data-[state=active]:bg-muted data-[state=active]:text-primary">Wishlist</TabsTrigger>
+          <TabsTrigger value="wishlist" className="w-full justify-start text-base data-[state=active]:bg-muted data-[state=active]:text-primary">My Majlis</TabsTrigger>
           <TabsTrigger value="addresses" className="w-full justify-start text-base data-[state=active]:bg-muted data-[state=active]:text-primary">Addresses</TabsTrigger>
         </TabsList>
         <div className="flex-1 w-full">

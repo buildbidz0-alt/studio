@@ -40,8 +40,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return [...prevItems, { product, quantity }];
     });
     toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your cart.`,
+      title: "Added to Majlis",
+      description: `${product.name} has been added to your collection.`,
     });
   };
 
@@ -50,8 +50,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       prevItems.filter((item) => item.product.id !== productId)
     );
      toast({
-      title: "Removed from cart",
-      description: `Item has been removed from your cart.`,
+      title: "Removed from Majlis",
+      description: `Item has been removed from your collection.`,
       variant: 'destructive'
     });
   };

@@ -68,9 +68,9 @@ export function Header() {
       <div className="container flex h-16 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <CrescentMoonIcon className="h-6 w-6 text-primary" />
+            <CrescentMoonIcon className="h-6 w-6 text-secondary" />
             <span className="hidden font-bold sm:inline-block font-headline text-lg">
-              Jalal Bazaar
+              LuxHalal
             </span>
           </Link>
           <nav className="flex items-center gap-6 text-sm font-body">
@@ -86,7 +86,7 @@ export function Header() {
              {user?.role === 'admin' && (
                 <Link
                   href="/admin"
-                  className="transition-colors hover:text-foreground/80 text-foreground/60 font-semibold text-primary"
+                  className="transition-colors hover:text-foreground/80 text-foreground/60 font-semibold text-secondary"
                 >
                   Admin Dashboard
                 </Link>
@@ -94,7 +94,7 @@ export function Header() {
              {user?.role !== 'seller' && user?.role !== 'admin' && (
                 <Link
                   href="/seller/join"
-                  className="transition-colors hover:text-foreground/80 text-foreground/60 font-semibold text-primary"
+                  className="transition-colors hover:text-foreground/80 text-foreground/60 font-semibold text-secondary"
                 >
                   Become a Seller
                 </Link>
@@ -115,9 +115,9 @@ export function Header() {
               <SheetContent side="left" className="pr-0 flex flex-col">
                  <div className="p-6 pb-4 text-left">
                     <Link href="/" className="flex items-center space-x-2">
-                        <CrescentMoonIcon className="h-6 w-6 text-primary" />
+                        <CrescentMoonIcon className="h-6 w-6 text-secondary" />
                         <span className="font-bold font-headline text-lg">
-                            Jalal Bazaar
+                            LuxHalal
                         </span>
                     </Link>
                  </div>

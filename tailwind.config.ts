@@ -19,8 +19,8 @@ const config = {
     },
     extend: {
       fontFamily: {
-        headline: ['var(--font-belleza)', 'sans-serif'],
-        body: ['var(--font-alegreya)', 'serif'],
+        headline: ['var(--font-playfair-display)', 'serif'],
+        body: ['var(--font-lato)', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
