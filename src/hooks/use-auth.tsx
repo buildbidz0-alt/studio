@@ -132,22 +132,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           
           const newUsers = [...users, newUser];
           persistUsers(newUsers);
-
-          if (newUser.role === 'customer') {
-            setUser(newUser);
-            window.localStorage.setItem('jalal-bazaar-user', JSON.stringify(newUser));
-            toast({
-                title: "Account Created!",
-                description: `Welcome to Jalal Bazaar, ${newUser.firstName}!`,
-            });
+          
+          setUser(newUser);
+          window.localStorage.setItem('jalal-bazaar-user', JSON.stringify(newUser));
+          toast({
+              title: "Account Created!",
+              description: `Welcome to Jalal Bazaar, ${newUser.firstName}!`,
+          });
+          
+          if (newUser.role === 'seller') {
+            router.push('/seller/dashboard');
+          } else {
             router.push('/profile');
-          } else if (newUser.role === 'seller') {
-            // Don't log in the seller automatically, they need approval
-             toast({
-                title: "Registration Submitted",
-                description: `Thanks, ${newUser.firstName}! Your seller application is under review.`,
-            });
           }
+
           resolve();
         }, 1000);
       });

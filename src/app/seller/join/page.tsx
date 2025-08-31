@@ -32,15 +32,15 @@ export default function SellerJoinPage() {
                  <div className="flex items-start gap-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold text-lg flex-shrink-0">2</div>
                     <div>
-                        <h3 className="font-bold text-lg">Submit for Verification</h3>
-                        <p className="text-muted-foreground text-sm">Upload necessary documents for KYC and Halal certification. Our team will review your application within 24-48 hours.</p>
+                        <h3 className="font-bold text-lg">Upload Your Products</h3>
+                        <p className="text-muted-foreground text-sm">Once registered, you can access your seller dashboard to list your halal-certified products and set up your store profile.</p>
                     </div>
                 </div>
                  <div className="flex items-start gap-4">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold text-lg flex-shrink-0">3</div>
                     <div>
-                        <h3 className="font-bold text-lg">List Products & Start Selling</h3>
-                        <p className="text-muted-foreground text-sm">Once approved, you can access your dashboard to list your products and start reaching customers.</p>
+                        <h3 className="font-bold text-lg">Submit for Review & Go Live</h3>
+                        <p className="text-muted-foreground text-sm">After you've set up your store, submit it for a final review. Our team will verify your certifications and products before you go live.</p>
                     </div>
                 </div>
             </div>

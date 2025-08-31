@@ -30,6 +30,7 @@ const formSchema = z.object({
 
 export function SellerSignupForm() {
   const { signup } = useAuth();
+  const router = useRouter();
   const { toast } = useToast();
   const [error, setError] = useState<string | null>(null);
 
@@ -50,14 +51,11 @@ export function SellerSignupForm() {
       const signupData: Omit<User, 'id'> = {
           ...values,
           role: 'seller',
-          status: 'pending' // New sellers start as pending
+          status: 'approved' // Set to approved to allow immediate dashboard access
       }
       await signup(signupData);
       form.reset();
-      toast({
-        title: "Registration Submitted!",
-        description: "Your seller application is under review. We'll notify you upon approval."
-      })
+      // Redirect to dashboard after signup
     } catch (err: any) {
       setError(err.message);
     }
@@ -141,7 +139,7 @@ export function SellerSignupForm() {
           )}
         />
         <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-           {form.formState.isSubmitting ? 'Submitting for review...' : 'Submit for Review'}
+           {form.formState.isSubmitting ? 'Creating account...' : 'Create Account'}
         </Button>
       </form>
     </Form>

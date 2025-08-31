@@ -18,13 +18,15 @@ export default function SellerLayout({
     if (!isLoading) {
       if (user?.role !== "seller") {
         router.replace("/login");
-      } else if (user.status !== "approved") {
-        router.replace("/seller/join"); // Or a dedicated "pending approval" page
-      }
+      } 
+      // We no longer check for status here to allow access to the dashboard
+      // else if (user.status !== "approved") {
+      //   router.replace("/seller/join"); 
+      // }
     }
   }, [user, isLoading, router]);
 
-  if (isLoading || user?.role !== "seller" || user.status !== 'approved') {
+  if (isLoading || user?.role !== "seller") {
     return (
         <div className="container mx-auto py-24 flex items-center justify-center">
             <Card className="w-[450px]">
@@ -32,11 +34,10 @@ export default function SellerLayout({
                     <CardTitle className="flex items-center gap-2">
                         <AlertTriangle className="text-destructive" />
                         Access Denied
-                    </CardTitle>
+                    </Title>
                 </CardHeader>
                 <CardContent>
-                    <p>Your seller account is not active. It might be pending approval or has been rejected.</p>
-                    <p className="mt-2 text-sm text-muted-foreground">If you believe this is an error, please contact support.</p>
+                    <p>You must be logged in as a seller to view this page.</p>
                 </CardContent>
             </Card>
         </div>
