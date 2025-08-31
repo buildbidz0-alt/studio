@@ -15,6 +15,7 @@ export interface User {
   status?: 'pending' | 'approved' | 'rejected';
   gstNumber?: string;
   bankAccountNumber?: string;
+  ifscCode?: string;
   businessDetails?: string;
   documentUrl?: string; // for storing uploaded document path
 }
@@ -51,6 +52,7 @@ const MOCK_USERS_INITIAL_STATE: User[] = [
         status: 'approved',
         gstNumber: '22AAAAA0000A1Z5',
         bankAccountNumber: '123456789012',
+        ifscCode: 'FDRL0001234',
         businessDetails: 'Selling high-quality fabrics since 2015.'
     },
     {
@@ -145,7 +147,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           }
           const newUser: User = { 
               id: `user-${Date.now()}`, 
-              ...values
+              status: 'pending',
+              ...values,
           };
           
           const newUsers = [...users, newUser];
@@ -153,8 +156,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           
           persistUser(newUser);
           toast({
-              title: "Account Created!",
-              description: `Welcome to Jalal Bazaar, ${newUser.firstName}!`,
+              title: "Account Submitted!",
+              description: "Thank you for registering. Your application is under review.",
           });
           
           if (newUser.role === 'seller') {

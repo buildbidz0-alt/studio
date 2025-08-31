@@ -22,6 +22,7 @@ const formSchema = z.object({
   storeName: z.string().min(3, "Store name must be at least 3 characters."),
   businessDetails: z.string().min(20, "Please provide more details about your business."),
   bankAccountNumber: z.string().min(9, "Please enter a valid bank account number."),
+  ifscCode: z.string().length(11, "Please enter a valid 11-character IFSC code."),
   gstNumber: z.string().optional(),
 });
 
@@ -35,6 +36,7 @@ export function SellerSettingsForm() {
       storeName: "",
       businessDetails: "",
       bankAccountNumber: "",
+      ifscCode: "",
       gstNumber: "",
     },
   });
@@ -45,6 +47,7 @@ export function SellerSettingsForm() {
             storeName: user.storeName || "",
             businessDetails: user.businessDetails || "",
             bankAccountNumber: user.bankAccountNumber || "",
+            ifscCode: user.ifscCode || "",
             gstNumber: user.gstNumber || ""
         });
     }
@@ -100,19 +103,34 @@ export function SellerSettingsForm() {
             </FormItem>
           )}
         />
-        <FormField
-            control={form.control}
-            name="bankAccountNumber"
-            render={({ field }) => (
-            <FormItem>
-                <FormLabel>Bank Account Number</FormLabel>
-                <FormControl>
-                <Input placeholder="Your bank account number" {...field} />
-                </FormControl>
-                <FormMessage />
-            </FormItem>
-            )}
-        />
+        <div className="grid grid-cols-2 gap-4">
+            <FormField
+                control={form.control}
+                name="bankAccountNumber"
+                render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Bank Account Number</FormLabel>
+                    <FormControl>
+                    <Input placeholder="Your bank account number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+                )}
+            />
+             <FormField
+                control={form.control}
+                name="ifscCode"
+                render={({ field }) => (
+                <FormItem>
+                    <FormLabel>IFSC Code</FormLabel>
+                    <FormControl>
+                    <Input placeholder="Your bank's IFSC code" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+                )}
+            />
+        </div>
         <FormField
             control={form.control}
             name="gstNumber"

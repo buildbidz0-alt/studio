@@ -30,6 +30,7 @@ const formSchema = z.object({
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
   gstNumber: z.string().optional(),
   bankAccountNumber: z.string().min(9, "Please enter a valid bank account number."),
+  ifscCode: z.string().length(11, "Please enter a valid 11-character IFSC code."),
   businessDetails: z.string().min(20, "Please provide more details about your business."),
   document: z.any().optional(),
 });
@@ -48,6 +49,7 @@ export function SellerSignupForm() {
       password: "",
       gstNumber: "",
       bankAccountNumber: "",
+      ifscCode: "",
       businessDetails: "",
     },
   });
@@ -180,18 +182,31 @@ export function SellerSignupForm() {
           />
           <FormField
             control={form.control}
-            name="gstNumber"
+            name="ifscCode"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>GST Number</FormLabel>
+                <FormLabel>IFSC Code</FormLabel>
                 <FormControl>
-                  <Input placeholder="GSTIN (optional)" {...field} />
+                  <Input placeholder="Your bank's IFSC code" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
+        <FormField
+            control={form.control}
+            name="gstNumber"
+            render={({ field }) => (
+            <FormItem>
+                <FormLabel>GST Number</FormLabel>
+                <FormControl>
+                <Input placeholder="GSTIN (optional)" {...field} />
+                </FormControl>
+                <FormMessage />
+            </FormItem>
+            )}
+        />
          <FormField
           control={form.control}
           name="document"
