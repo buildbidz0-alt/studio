@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface SellerProductListProps {
     limit?: number;
@@ -47,6 +48,7 @@ export function SellerProductList({ limit }: SellerProductListProps) {
                         <TableHead>Name</TableHead>
                         <TableHead>Category</TableHead>
                         <TableHead>Price</TableHead>
+                        <TableHead>Status</TableHead>
                         <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -65,6 +67,20 @@ export function SellerProductList({ limit }: SellerProductListProps) {
                             <TableCell className="font-medium">{product.name}</TableCell>
                             <TableCell><Badge variant="outline">{product.category}</Badge></TableCell>
                             <TableCell>₹{product.price.toFixed(2)}</TableCell>
+                            <TableCell>
+                                <Badge
+                                    variant={
+                                    product.status === "approved"
+                                        ? "default"
+                                        : product.status === "rejected"
+                                        ? "destructive"
+                                        : "secondary"
+                                    }
+                                    className="capitalize"
+                                >
+                                    {product.status}
+                                </Badge>
+                            </TableCell>
                             <TableCell className="text-right">
                                 <Button variant="ghost" size="icon">
                                     <MoreHorizontal className="h-4 w-4" />

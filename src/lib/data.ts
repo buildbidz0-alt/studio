@@ -7,6 +7,7 @@ export interface Product {
   category: 'Food' | 'Cosmetics' | 'Apparel' | 'Home Goods';
   sellerId: string;
   isHalalCertified: boolean;
+  status: 'pending' | 'approved' | 'rejected';
   imageHint?: string;
 }
 
@@ -56,6 +57,7 @@ let products: Product[] = [
     category: 'Food',
     sellerId: 'seller-1',
     isHalalCertified: true,
+    status: 'approved',
     imageHint: 'olive oil',
   },
   {
@@ -67,6 +69,7 @@ let products: Product[] = [
     category: 'Apparel',
     sellerId: 'seller-2',
     isHalalCertified: true,
+    status: 'approved',
     imageHint: 'silk scarf',
   },
   {
@@ -78,6 +81,7 @@ let products: Product[] = [
     category: 'Cosmetics',
     sellerId: 'seller-3',
     isHalalCertified: true,
+    status: 'approved',
     imageHint: 'skincare product',
   },
   {
@@ -89,6 +93,7 @@ let products: Product[] = [
     category: 'Food',
     sellerId: 'seller-1',
     isHalalCertified: true,
+    status: 'approved',
     imageHint: 'honey jar',
   },
   {
@@ -100,6 +105,7 @@ let products: Product[] = [
     category: 'Home Goods',
     sellerId: 'seller-2',
     isHalalCertified: true,
+    status: 'approved',
     imageHint: 'prayer rug',
   },
   {
@@ -111,6 +117,7 @@ let products: Product[] = [
     category: 'Cosmetics',
     sellerId: 'seller-1',
     isHalalCertified: true,
+    status: 'approved',
     imageHint: 'natural toothbrush',
   },
   {
@@ -122,6 +129,7 @@ let products: Product[] = [
     category: 'Food',
     sellerId: 'seller-1',
     isHalalCertified: true,
+    status: 'approved',
     imageHint: 'date fruit',
   },
   {
@@ -133,6 +141,7 @@ let products: Product[] = [
     category: 'Apparel',
     sellerId: 'seller-2',
     isHalalCertified: true,
+    status: 'approved',
     imageHint: 'modest fashion',
   },
   {
@@ -144,6 +153,7 @@ let products: Product[] = [
     category: 'Food',
     sellerId: 'seller-1',
     isHalalCertified: true,
+    status: 'approved',
     imageHint: 'seed oil',
   },
   {
@@ -155,6 +165,7 @@ let products: Product[] = [
     category: 'Cosmetics',
     sellerId: 'seller-3',
     isHalalCertified: true,
+    status: 'approved',
     imageHint: 'hair oil',
   },
   {
@@ -166,6 +177,7 @@ let products: Product[] = [
     category: 'Home Goods',
     sellerId: 'seller-2',
     isHalalCertified: true,
+    status: 'approved',
     imageHint: 'islamic art',
   },
   {
@@ -177,13 +189,26 @@ let products: Product[] = [
     category: 'Food',
     sellerId: 'seller-1',
     isHalalCertified: true,
+    status: 'approved',
     imageHint: 'gummy bears',
   }
 ];
 
-export async function addProduct(productData: Omit<Product, 'id'>): Promise<Product> {
+// In a real app, this data would be persisted in a database.
+// For this prototype, we'll manage it in memory.
+export function updateProductStatus(productId: string, status: 'approved' | 'rejected') {
+  const productIndex = products.findIndex(p => p.id === productId);
+  if (productIndex !== -1) {
+    products[productIndex].status = status;
+    return products[productIndex];
+  }
+  return null;
+}
+
+export async function addProduct(productData: Omit<Product, 'id' | 'status'>): Promise<Product> {
   const newProduct: Product = {
     id: `prod-${Date.now()}`,
+    status: 'pending',
     ...productData,
   };
   products.unshift(newProduct);
@@ -192,7 +217,7 @@ export async function addProduct(productData: Omit<Product, 'id'>): Promise<Prod
 
 
 export async function getProducts(options?: { category?: string; search?: string }): Promise<Product[]> {
-  let filteredProducts = products;
+  let filteredProducts = products.filter(p => p.status === 'approved');
   
   if (options?.category && options.category !== 'all') {
     filteredProducts = filteredProducts.filter(p => p.category === options.category);
@@ -206,12 +231,24 @@ export async function getProducts(options?: { category?: string; search?: string
   return filteredProducts;
 }
 
+export async function getPendingProducts(): Promise<Product[]> {
+  return products.filter(p => p.status === 'pending');
+}
+
+
 export async function getProductById(id: string): Promise<Product | undefined> {
-  return products.find(p => p.id === id);
+  const product = products.find(p => p.id === id);
+  // In a real app, you might have different logic for admins/sellers vs customers
+  if (product?.status !== 'approved') {
+      // For this prototype, we allow direct access to non-approved products
+      // In a real app, you'd add role-based access control here
+      return product;
+  }
+  return product;
 }
 
 export async function getProductsByIds(ids: string[]): Promise<Product[]> {
-  return products.filter(p => ids.includes(p.id));
+  return products.filter(p => ids.includes(p.id) && p.status === 'approved');
 }
 
 export async function getSellers(): Promise<Seller[]> {

@@ -145,14 +145,14 @@ export function ProductForm() {
         }
         await addProduct(productData);
         toast({
-            title: "Product Added!",
-            description: `${values.name} has been successfully listed.`,
+            title: "Product Submitted!",
+            description: `${values.name} has been submitted for review.`,
         });
         router.push("/seller/dashboard/products");
     } catch (err: any) {
          toast({
             title: "Error",
-            description: "There was an error adding your product. Please try again.",
+            description: "There was an error submitting your product. Please try again.",
             variant: "destructive"
         });
     }
@@ -313,7 +313,7 @@ export function ProductForm() {
           )}
         />
         <Button type="submit" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? 'Adding Product...' : 'Add Product'}
+          {form.formState.isSubmitting ? 'Submitting Product...' : 'Submit for Review'}
         </Button>
       </form>
     </Form>

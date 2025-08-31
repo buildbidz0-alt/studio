@@ -9,6 +9,7 @@ import { ShieldCheck, Users, Package, DollarSign, Activity } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SellerManagement } from "@/components/admin/SellerManagement";
 import { AuditLog } from "@/components/admin/AuditLog";
+import { ProductApprovals } from "@/components/admin/ProductApprovals";
 
 export default function AdminDashboardPage() {
   return (
@@ -79,10 +80,14 @@ export default function AdminDashboardPage() {
         <Tabs defaultValue="sellers">
           <TabsList className="mb-4">
             <TabsTrigger value="sellers">Seller Management</TabsTrigger>
+            <TabsTrigger value="products">Product Approvals</TabsTrigger>
             <TabsTrigger value="audit">Audit Log</TabsTrigger>
           </TabsList>
           <TabsContent value="sellers">
             <SellerManagement />
+          </TabsContent>
+          <TabsContent value="products">
+            <ProductApprovals />
           </TabsContent>
           <TabsContent value="audit">
             <AuditLog />

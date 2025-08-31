@@ -5,16 +5,17 @@ import { useState, useEffect } from "react";
 import { getProductById, getSellerById, getProductsBySellerId, type Product } from "@/lib/data";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, AlertTriangle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { AddToCartButton } from "@/components/product/AddToCartButton";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { ProductCard } from "@/components/product/ProductCard";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AddToWishlistButton } from "@/components/product/AddToWishlistButton";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/hooks/use-auth";
 
 
 type ProductPageProps = {
@@ -29,6 +30,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [otherProducts, setOtherProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,19 +39,25 @@ export default function ProductPage({ params }: ProductPageProps) {
         if (!productData) {
             notFound();
         }
+
+        // Customer/guest can only see approved products. Seller can see their own pending products. Admin can see all.
+        if (productData.status !== 'approved' && user?.role !== 'admin' && !(user?.role === 'seller' && user.id === productData.sellerId)) {
+            notFound();
+        }
+
         setProduct(productData);
 
         const sellerData = await getSellerById(productData.sellerId);
         setSeller(sellerData);
         
         const otherProductsData = (await getProductsBySellerId(productData.sellerId))
-            .filter(p => p.id !== productData.id)
+            .filter(p => p.id !== productData.id && p.status === 'approved')
             .slice(0, 3);
         setOtherProducts(otherProductsData);
         setLoading(false);
     }
     fetchData();
-  }, [params.id]);
+  }, [params.id, user]);
 
 
   if (loading || !product) {
@@ -80,6 +88,20 @@ export default function ProductPage({ params }: ProductPageProps) {
 
   return (
     <div className="container mx-auto max-w-6xl py-12">
+       {product.status !== 'approved' && (
+        <Card className="mb-8 border-yellow-400 bg-yellow-50 text-yellow-900">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+                <AlertTriangle />
+                Product Under Review
+            </CardTitle>
+            <CardContent className="pt-4 p-0">
+                <p>This product is currently pending approval from the admin and is not visible to customers.</p>
+            </CardContent>
+          </CardHeader>
+        </Card>
+      )}
+
       <div className="grid md:grid-cols-2 gap-12">
         <div>
             <Card className="overflow-hidden">
