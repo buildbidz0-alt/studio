@@ -14,7 +14,7 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const EnhancedSearchAutoSuggestionsInputSchema = z.object({
-  searchQuery: z.string().describe('The user\u2019s search query.'),
+  searchQuery: z.string().describe('The user’s search query.'),
 });
 export type EnhancedSearchAutoSuggestionsInput = z.infer<typeof EnhancedSearchAutoSuggestionsInputSchema>;
 
