@@ -1,6 +1,10 @@
+
+"use client";
+
 import Link from "next/link";
 import { Github, Twitter, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/hooks/use-language";
 
 function CrescentMoonIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
@@ -22,11 +26,12 @@ function CrescentMoonIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 export function Footer() {
+  const { t } = useLanguage();
   const footerLinks = [
-      { href: "/about", label: "About Us" },
-      { href: "/contact", label: "Contact" },
-      { href: "/terms", label: "Terms of Service" },
-      { href: "/privacy", label: "Privacy Policy" },
+      { href: "/about", label: t('footer_about') },
+      { href: "/contact", label: t('footer_contact') },
+      { href: "/terms", label: t('footer_terms') },
+      { href: "/privacy", label: t('footer_privacy') },
   ]
   return (
     <footer className="w-full border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -39,7 +44,7 @@ export function Footer() {
             </span>
           </div>
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left font-body">
-            © {new Date().getFullYear()} Jalal Bazaar. All rights reserved.
+            © {new Date().getFullYear()} Jalal Bazaar. {t('footer_rights')}
           </p>
         </div>
         <div className="flex flex-col items-center gap-4 md:items-end">

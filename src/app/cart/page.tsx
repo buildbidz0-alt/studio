@@ -1,3 +1,6 @@
+
+"use client";
+
 import { CartView } from "@/components/cart/CartView";
 import {
   Breadcrumb,
@@ -7,25 +10,27 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { useLanguage } from "@/hooks/use-language";
 
 export default function CartPage() {
+  const { t } = useLanguage();
   return (
     <div className="container mx-auto py-12">
         <Breadcrumb className="mb-8">
             <BreadcrumbList>
                 <BreadcrumbItem>
-                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                <BreadcrumbLink href="/">{t('breadcrumb_home')}</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                <BreadcrumbPage>Shopping Cart</BreadcrumbPage>
+                <BreadcrumbPage>{t('cart_breadcrumb')}</BreadcrumbPage>
                 </BreadcrumbItem>
             </BreadcrumbList>
         </Breadcrumb>
         <div className="text-left mb-8">
-            <h1 className="font-headline text-5xl md:text-6xl">Your Cart</h1>
+            <h1 className="font-headline text-5xl md:text-6xl">{t('cart_title')}</h1>
             <p className="text-muted-foreground mt-2 text-lg">
-                Review your items and proceed to checkout.
+                {t('cart_description')}
             </p>
         </div>
         <CartView />

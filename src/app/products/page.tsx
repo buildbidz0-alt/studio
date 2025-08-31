@@ -1,3 +1,4 @@
+
 "use client";
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { getProducts, type Product } from "@/lib/data";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Search } from "lucide-react";
+import { useLanguage } from "@/hooks/use-language";
 
 const categories = ["all", "Food", "Cosmetics", "Apparel", "Home Goods"];
 
@@ -21,6 +23,7 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const { t } = useLanguage();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -54,16 +57,16 @@ export default function ProductsPage() {
   return (
     <div className="container mx-auto py-12">
       <div className="text-center mb-12">
-        <h1 className="font-headline text-5xl md:text-6xl">Our Collection</h1>
+        <h1 className="font-headline text-5xl md:text-6xl">{t('products_title')}</h1>
         <p className="text-muted-foreground mt-2 text-lg">
-          Explore our curated selection of authentic halal products.
+          {t('products_description')}
         </p>
       </div>
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center">
         <div className="relative flex-grow">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
-            placeholder="Search products..."
+            placeholder={t('products_search_placeholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
@@ -71,12 +74,12 @@ export default function ProductsPage() {
         </div>
         <Select value={category} onValueChange={setCategory}>
           <SelectTrigger className="w-full md:w-[180px]">
-            <SelectValue placeholder="Filter by category" />
+            <SelectValue placeholder={t('products_filter_placeholder')} />
           </SelectTrigger>
           <SelectContent>
             {categories.map((cat) => (
               <SelectItem key={cat} value={cat} className="capitalize">
-                {cat === 'all' ? 'All Categories' : cat}
+                {cat === 'all' ? t('products_all_categories') : cat}
               </SelectItem>
             ))}
           </SelectContent>
@@ -104,8 +107,8 @@ export default function ProductsPage() {
       )}
        {!loading && filteredProducts.length === 0 && (
           <div className="text-center col-span-full py-16">
-            <h2 className="font-headline text-3xl">No Products Found</h2>
-            <p className="text-muted-foreground mt-2">Try adjusting your search or filters.</p>
+            <h2 className="font-headline text-3xl">{t('products_none_found_title')}</h2>
+            <p className="text-muted-foreground mt-2">{t('products_none_found_desc')}</p>
           </div>
         )}
     </div>

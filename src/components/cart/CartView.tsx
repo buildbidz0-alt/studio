@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -14,20 +15,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useLanguage } from "@/hooks/use-language";
 
 export function CartView() {
   const { cartItems, updateQuantity, removeFromCart, cartTotal } = useCart();
+  const { t } = useLanguage();
 
   if (cartItems.length === 0) {
     return (
       <div className="text-center py-24">
         <ShoppingBag className="mx-auto h-24 w-24 text-muted-foreground" />
-        <h2 className="mt-6 font-headline text-3xl">Your cart is empty</h2>
+        <h2 className="mt-6 font-headline text-3xl">{t('cart_empty_title')}</h2>
         <p className="mt-2 text-muted-foreground">
-          Looks like you haven't added anything to your cart yet.
+          {t('cart_empty_desc')}
         </p>
         <Button asChild className="mt-6">
-          <Link href="/products">Start Shopping</Link>
+          <Link href="/products">{t('cart_start_shopping')}</Link>
         </Button>
       </div>
     );
@@ -55,26 +58,26 @@ export function CartView() {
       <div className="lg:col-span-1 sticky top-24">
         <Card>
           <CardHeader>
-            <CardTitle className="font-headline text-2xl">Order Summary</CardTitle>
+            <CardTitle className="font-headline text-2xl">{t('cart_summary_title')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between font-body">
-              <span>Subtotal</span>
+              <span>{t('cart_summary_subtotal')}</span>
               <span>₹{cartTotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between font-body">
-              <span>Shipping</span>
-              <span>Free</span>
+              <span>{t('cart_summary_shipping')}</span>
+              <span>{t('cart_summary_shipping_free')}</span>
             </div>
             <Separator />
             <div className="flex justify-between font-bold text-lg">
-              <span>Total</span>
+              <span>{t('cart_summary_total')}</span>
               <span>₹{cartTotal.toFixed(2)}</span>
             </div>
           </CardContent>
           <CardFooter>
             <Button asChild className="w-full" size="lg">
-              <Link href="/checkout">Proceed to Checkout</Link>
+              <Link href="/checkout">{t('cart_proceed_to_checkout')}</Link>
             </Button>
           </CardFooter>
         </Card>
@@ -90,6 +93,7 @@ interface CartItemRowProps {
 }
 
 function CartItemRow({ item, onQuantityChange, onRemove }: CartItemRowProps) {
+  const { t } = useLanguage();
   return (
     <div className="flex items-center p-4 gap-4">
       <div className="relative h-24 w-24 flex-shrink-0">
@@ -125,7 +129,7 @@ function CartItemRow({ item, onQuantityChange, onRemove }: CartItemRowProps) {
           className="text-muted-foreground hover:text-destructive"
         >
           <Trash2 className="h-5 w-5" />
-          <span className="sr-only">Remove item</span>
+          <span className="sr-only">{t('cart_remove_item')}</span>
         </Button>
       </div>
     </div>

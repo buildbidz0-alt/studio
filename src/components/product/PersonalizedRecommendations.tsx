@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -12,11 +13,13 @@ import {
 } from "@/components/ui/carousel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { fetchRecommendationsAction } from "@/app/actions";
+import { useLanguage } from "@/hooks/use-language";
 
 
 export function PersonalizedRecommendations() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const getRecs = async () => {
@@ -35,7 +38,7 @@ export function PersonalizedRecommendations() {
       <section className="w-full bg-background py-16 sm:py-24">
         <div className="container mx-auto">
           <h2 className="font-headline text-4xl md:text-5xl mb-8">
-            Just For You
+            {t('recommendations_title')}
           </h2>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {[...Array(4)].map((_, i) => (
@@ -61,7 +64,7 @@ export function PersonalizedRecommendations() {
     <section className="w-full bg-secondary py-16 sm:py-24">
       <div className="container mx-auto">
         <h2 className="font-headline text-4xl md:text-5xl text-center mb-12">
-          Just For You
+          {t('recommendations_title')}
         </h2>
         <Carousel
           opts={{

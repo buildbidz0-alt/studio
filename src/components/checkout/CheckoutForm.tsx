@@ -19,6 +19,7 @@ import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import { useLanguage } from "@/hooks/use-language";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -40,6 +41,7 @@ export function CheckoutForm() {
   const { cartItems, cartTotal, clearCart } = useCart();
   const { user } = useAuth();
   const { toast } = useToast();
+  const { t } = useLanguage();
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -76,8 +78,8 @@ export function CheckoutForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (cartTotal <= 0) {
       toast({
-        title: "Your cart is empty",
-        description: "Please add items to your cart before checking out.",
+        title: t('checkout_toast_empty_cart_title'),
+        description: t('checkout_toast_empty_cart_desc'),
         variant: "destructive",
       });
       return;
@@ -88,12 +90,12 @@ export function CheckoutForm() {
         amount: cartTotal * 100, // amount in the smallest currency unit
         currency: "INR",
         name: "Jalal Bazaar",
-        description: "Your Halal Marketplace Purchase",
+        description: t('checkout_razorpay_desc'),
         handler: function (response: any) {
             console.log("Razorpay Response:", response);
             toast({
-                title: "Order Placed!",
-                description: `Thank you for your purchase. Payment ID: ${response.razorpay_payment_id}`,
+                title: t('checkout_toast_order_placed_title'),
+                description: `${t('checkout_toast_order_placed_desc')} ${response.razorpay_payment_id}`,
             });
             clearCart();
             // Here you would typically redirect to an order confirmation page
@@ -120,7 +122,7 @@ export function CheckoutForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <Card>
           <CardHeader>
-            <CardTitle className="font-headline text-2xl">Contact & Shipping</CardTitle>
+            <CardTitle className="font-headline text-2xl">{t('checkout_form_title')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
              <FormField
@@ -128,7 +130,7 @@ export function CheckoutForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email Address</FormLabel>
+                  <FormLabel>{t('checkout_form_email')}</FormLabel>
                   <FormControl>
                     <Input placeholder="you@example.com" {...field} />
                   </FormControl>
@@ -142,7 +144,7 @@ export function CheckoutForm() {
                 name="firstName"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel>{t('checkout_form_first_name')}</FormLabel>
                     <FormControl>
                         <Input placeholder="John" {...field} />
                     </FormControl>
@@ -155,7 +157,7 @@ export function CheckoutForm() {
                 name="lastName"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel>Last Name</FormLabel>
+                    <FormLabel>{t('checkout_form_last_name')}</FormLabel>
                     <FormControl>
                         <Input placeholder="Doe" {...field} />
                     </FormControl>
@@ -169,7 +171,7 @@ export function CheckoutForm() {
               name="address"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Address</FormLabel>
+                  <FormLabel>{t('checkout_form_address')}</FormLabel>
                   <FormControl>
                     <Input placeholder="123 Halal St" {...field} />
                   </FormControl>
@@ -183,7 +185,7 @@ export function CheckoutForm() {
                 name="city"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel>City</FormLabel>
+                    <FormLabel>{t('checkout_form_city')}</FormLabel>
                     <FormControl>
                         <Input placeholder="Mecca" {...field} />
                     </FormControl>
@@ -196,7 +198,7 @@ export function CheckoutForm() {
                 name="country"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel>Country</FormLabel>
+                    <FormLabel>{t('checkout_form_country')}</FormLabel>
                     <FormControl>
                         <Input placeholder="India" {...field} />
                     </FormControl>
@@ -209,7 +211,7 @@ export function CheckoutForm() {
                 name="postalCode"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel>Postal Code</FormLabel>
+                    <FormLabel>{t('checkout_form_postal_code')}</FormLabel>
                     <FormControl>
                         <Input placeholder="12345" {...field} />
                     </FormControl>
@@ -222,7 +224,7 @@ export function CheckoutForm() {
         </Card>
 
         <Button type="submit" className="w-full" size="lg" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? 'Processing...' : `Pay ₹${cartTotal.toFixed(2)} with Razorpay`}
+          {form.formState.isSubmitting ? t('checkout_form_processing') : `${t('checkout_form_pay')} ₹${cartTotal.toFixed(2)} ${t('checkout_form_with_razorpay')}`}
         </Button>
       </form>
     </Form>

@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { AddToCartButton } from './AddToCartButton';
 import { WishlistIconButton } from './WishlistIconButton';
 import { useAuth } from '@/hooks/use-auth';
+import { useLanguage } from '@/hooks/use-language';
 
 interface ProductCardProps {
   product: Product;
@@ -23,6 +24,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { user } = useAuth();
+  const { t } = useLanguage();
   
   return (
     <Card className="group flex flex-col overflow-hidden rounded-lg shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-xl">
@@ -58,7 +60,7 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.isHalalCertified && (
                 <div className="flex items-center text-xs text-green-700 mt-1">
                 <ShieldCheck className="mr-1 h-4 w-4" />
-                <span>Halal Certified</span>
+                <span>{t('product_halal_certified')}</span>
                 </div>
             )}
         </div>

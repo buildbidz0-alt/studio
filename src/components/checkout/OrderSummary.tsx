@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -10,14 +11,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useLanguage } from "@/hooks/use-language";
 
 export function OrderSummary() {
   const { cartItems, cartTotal } = useCart();
+  const { t } = useLanguage();
 
   return (
     <Card className="sticky top-24">
       <CardHeader>
-        <CardTitle className="font-headline text-2xl">Order Summary</CardTitle>
+        <CardTitle className="font-headline text-2xl">{t('cart_summary_title')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-4 max-h-64 overflow-y-auto pr-2">
@@ -45,18 +48,18 @@ export function OrderSummary() {
         </div>
         <Separator />
         <div className="flex justify-between font-body">
-            <span>Subtotal</span>
+            <span>{t('cart_summary_subtotal')}</span>
             <span>₹{cartTotal.toFixed(2)}</span>
         </div>
         <div className="flex justify-between font-body">
-            <span>Shipping</span>
-            <span className="text-primary font-semibold">Free</span>
+            <span>{t('cart_summary_shipping')}</span>
+            <span className="text-primary font-semibold">{t('cart_summary_shipping_free')}</span>
         </div>
         <Separator />
       </CardContent>
       <CardFooter>
         <div className="flex justify-between font-bold text-lg w-full">
-            <span>Total</span>
+            <span>{t('cart_summary_total')}</span>
             <span>₹{cartTotal.toFixed(2)}</span>
         </div>
       </CardFooter>

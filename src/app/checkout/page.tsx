@@ -1,3 +1,6 @@
+
+"use client";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,29 +11,31 @@ import {
 } from "@/components/ui/breadcrumb";
 import { CheckoutForm } from "@/components/checkout/CheckoutForm";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
+import { useLanguage } from "@/hooks/use-language";
 
 export default function CheckoutPage() {
+  const { t } = useLanguage();
   return (
     <div className="container mx-auto py-12">
       <Breadcrumb className="mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">{t('breadcrumb_home')}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/cart">Cart</BreadcrumbLink>
+            <BreadcrumbLink href="/cart">{t('breadcrumb_cart')}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Checkout</BreadcrumbPage>
+            <BreadcrumbPage>{t('breadcrumb_checkout')}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <div className="text-left mb-8">
-        <h1 className="font-headline text-5xl md:text-6xl">Checkout</h1>
+        <h1 className="font-headline text-5xl md:text-6xl">{t('checkout_title')}</h1>
         <p className="text-muted-foreground mt-2 text-lg">
-          Complete your purchase by providing the details below.
+          {t('checkout_description')}
         </p>
       </div>
 

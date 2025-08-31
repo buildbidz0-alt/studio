@@ -37,13 +37,6 @@ import {
 import { Separator } from "../ui/separator";
 import { useLanguage } from "@/hooks/use-language";
 
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/products", label: "Products" },
-  { href: "/about", label: "About Us" },
-  { href: "/contact", label: "Contact" },
-];
-
 function CrescentMoonIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg
@@ -66,7 +59,14 @@ function CrescentMoonIcon(props: React.SVGProps<SVGSVGElement>) {
 export function Header() {
   const { cartCount } = useCart();
   const { user, logout } = useAuth();
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
+
+  const navLinks = [
+    { href: "/", label: t('nav_home') },
+    { href: "/products", label: t('nav_products') },
+    { href: "/about", label: t('nav_about') },
+    { href: "/contact", label: t('nav_contact') },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -93,7 +93,7 @@ export function Header() {
                   href="/admin"
                   className="transition-colors hover:text-foreground/80 text-foreground/60 font-semibold text-secondary"
                 >
-                  Admin Dashboard
+                  {t('nav_admin_dashboard')}
                 </Link>
               )}
              {user?.role !== 'seller' && user?.role !== 'admin' && (
@@ -101,7 +101,7 @@ export function Header() {
                   href="/seller/join"
                   className="transition-colors hover:text-foreground/80 text-foreground/60 font-semibold text-secondary"
                 >
-                  Become a Seller
+                  {t('nav_become_seller')}
                 </Link>
               )}
           </nav>
@@ -114,7 +114,7 @@ export function Header() {
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="md:hidden">
                   <Menu className="h-5 w-5" />
-                  <span className="sr-only">Toggle Menu</span>
+                  <span className="sr-only">{t('nav_toggle_menu')}</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="pr-0 flex flex-col">
@@ -147,7 +147,7 @@ export function Header() {
                      <Button asChild className="w-full">
                       <Link href="/seller/join">
                         <Briefcase className="mr-2 h-4 w-4" />
-                        Become a Seller
+                        {t('nav_become_seller')}
                       </Link>
                     </Button>
                   </div>
@@ -161,22 +161,22 @@ export function Header() {
                 <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon">
                         <Languages className="h-5 w-5" />
-                        <span className="sr-only">Change language</span>
+                        <span className="sr-only">{t('nav_change_language')}</span>
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuRadioGroup value={language} onValueChange={setLanguage}>
-                        <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="hi">Hindi</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="ur">Urdu</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="ar">Arabic</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="en">{t('lang_en')}</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="hi">{t('lang_hi')}</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="ur">{t('lang_ur')}</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="ar">{t('lang_ar')}</DropdownMenuRadioItem>
                     </DropdownMenuRadioGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
 
             <Button variant="ghost" size="icon">
               <Search className="h-5 w-5" />
-              <span className="sr-only">Search</span>
+              <span className="sr-only">{t('nav_search')}</span>
             </Button>
             {user?.role !== 'admin' && (
               <Button asChild variant="ghost" size="icon">
@@ -190,7 +190,7 @@ export function Header() {
                       {cartCount}
                     </Badge>
                   )}
-                  <span className="sr-only">Shopping Cart</span>
+                  <span className="sr-only">{t('nav_cart')}</span>
                 </Link>
               </Button>
             )}
@@ -199,23 +199,23 @@ export function Header() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon">
                     <User className="h-5 w-5" />
-                    <span className="sr-only">User Menu</span>
+                    <span className="sr-only">{t('nav_user_menu')}</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuLabel>{t('nav_my_account')}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
                     <Link href="/profile">
                       <User className="mr-2 h-4 w-4" />
-                      <span>Profile</span>
+                      <span>{t('nav_profile')}</span>
                     </Link>
                   </DropdownMenuItem>
                   {user.role === 'admin' && (
                      <DropdownMenuItem asChild>
                         <Link href="/admin">
                             <Shield className="mr-2 h-4 w-4" />
-                            <span>Admin Dashboard</span>
+                            <span>{t('nav_admin_dashboard')}</span>
                         </Link>
                     </DropdownMenuItem>
                   )}
@@ -224,13 +224,13 @@ export function Header() {
                       <DropdownMenuItem asChild>
                           <Link href="/seller/dashboard">
                               <Store className="mr-2 h-4 w-4" />
-                              <span>Seller Dashboard</span>
+                              <span>{t('nav_seller_dashboard')}</span>
                           </Link>
                       </DropdownMenuItem>
                        <DropdownMenuItem asChild>
                           <Link href="/seller/dashboard/settings">
                               <Settings className="mr-2 h-4 w-4" />
-                              <span>Store Settings</span>
+                              <span>{t('nav_store_settings')}</span>
                           </Link>
                       </DropdownMenuItem>
                     </>
@@ -238,7 +238,7 @@ export function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={logout}>
                     <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
+                    <span>{t('nav_logout')}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -246,7 +246,7 @@ export function Header() {
               <Button asChild variant="ghost" size="icon">
                 <Link href="/login">
                   <LogIn className="h-5 w-5" />
-                  <span className="sr-only">Login</span>
+                  <span className="sr-only">{t('nav_login')}</span>
                 </Link>
               </Button>
             )}

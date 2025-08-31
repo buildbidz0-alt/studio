@@ -1,8 +1,10 @@
+
 "use client";
 
 import type { Product } from "@/lib/data";
 import { useToast } from "@/hooks/use-toast";
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { useLanguage } from "./use-language";
 
 interface WishlistContextType {
   wishlistItems: Product[];
@@ -28,6 +30,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
       }
   });
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   useEffect(() => {
     try {
@@ -43,8 +46,8 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         return prevItems;
       }
       toast({
-        title: "Added to Wishlist",
-        description: `${product.name} has been added to your wishlist.`,
+        title: t('product_add_to_wishlist'),
+        description: `${product.name} ${t('toast_added_to_wishlist')}`,
       });
       return [...prevItems, product];
     });
@@ -57,8 +60,8 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     );
     if(itemToRemove) {
       toast({
-        title: "Removed from Wishlist",
-        description: `${itemToRemove.name} has been removed from your wishlist.`,
+        title: t('product_remove_from_wishlist'),
+        description: `${itemToRemove.name} ${t('toast_removed_from_wishlist')}`,
         variant: 'destructive'
       });
     }

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useWishlist } from "@/hooks/use-wishlist";
@@ -5,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import type { Product } from "@/lib/data";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/hooks/use-language";
 
 interface AddToWishlistButtonProps {
   product: Product;
@@ -12,6 +14,7 @@ interface AddToWishlistButtonProps {
 
 export function AddToWishlistButton({ product }: AddToWishlistButtonProps) {
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { t } = useLanguage();
   const isWishlisted = isInWishlist(product.id);
 
   const handleToggleWishlist = () => {
@@ -25,7 +28,7 @@ export function AddToWishlistButton({ product }: AddToWishlistButtonProps) {
   return (
     <Button variant="outline" onClick={handleToggleWishlist} className="gap-2 w-full sm:w-auto">
       <Heart className={cn("h-4 w-4", isWishlisted && "fill-destructive text-destructive")} />
-      <span>{isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}</span>
+      <span>{isWishlisted ? t('product_remove_from_wishlist') : t('product_add_to_wishlist')}</span>
     </Button>
   );
 }
