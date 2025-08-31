@@ -23,7 +23,7 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -44,9 +44,13 @@ export default function ProductsPage() {
     }
 
     if (searchTerm) {
+      const lowerSearchTerm = searchTerm.toLowerCase();
       tempProducts = tempProducts.filter(
         (p) =>
-          p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          p.name.en.toLowerCase().includes(lowerSearchTerm) ||
+          p.name.hi.toLowerCase().includes(lowerSearchTerm) ||
+          p.name.ur.toLowerCase().includes(lowerSearchTerm) ||
+          p.name.ar.toLowerCase().includes(lowerSearchTerm) ||
           p.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }

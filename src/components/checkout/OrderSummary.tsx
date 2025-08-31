@@ -15,7 +15,7 @@ import { useLanguage } from "@/hooks/use-language";
 
 export function OrderSummary() {
   const { cartItems, cartTotal } = useCart();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <Card className="sticky top-24">
@@ -29,7 +29,7 @@ export function OrderSummary() {
                     <div className="relative h-16 w-16 flex-shrink-0">
                         <Image
                         src={item.product.imageUrls[0]}
-                        alt={item.product.name}
+                        alt={item.product.name[language]}
                         fill
                         className="object-cover rounded-md"
                         />
@@ -38,7 +38,7 @@ export function OrderSummary() {
                         </span>
                     </div>
                     <div className="flex-grow">
-                        <p className="font-body font-semibold">{item.product.name}</p>
+                        <p className="font-body font-semibold">{item.product.name[language]}</p>
                     </div>
                     <p className="font-body font-semibold">
                         ₹{(item.product.price * item.quantity).toFixed(2)}

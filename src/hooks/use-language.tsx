@@ -3,7 +3,7 @@
 
 import { createContext, useContext, useState, ReactNode, useEffect, useCallback } from "react";
 
-type Language = "en" | "hi" | "ur" | "ar";
+export type Language = "en" | "hi" | "ur" | "ar";
 
 const translations: Record<Language, Record<string, string>> = {
   en: {
@@ -107,6 +107,10 @@ const translations: Record<Language, Record<string, string>> = {
     wishlist_empty_title: "Your wishlist is empty",
     wishlist_empty_description: "Explore products and add your favorites here.",
     wishlist_discover_products: "Discover Products",
+    toast_added_to_cart: "has been added to your cart.",
+    toast_removed_from_cart: "Item has been removed from your cart.",
+    toast_added_to_wishlist: "has been added to your wishlist.",
+    toast_removed_from_wishlist: "has been removed from your wishlist.",
   },
   hi: {
     hero_headline: "आस्था विलासिता से मिलती है",
@@ -209,6 +213,10 @@ const translations: Record<Language, Record<string, string>> = {
     wishlist_empty_title: "आपकी इच्छा सूची खाली है",
     wishlist_empty_description: "उत्पादों का अन्वेषण करें और अपने पसंदीदा यहाँ जोड़ें।",
     wishlist_discover_products: "उत्पादों की खोज करें",
+    toast_added_to_cart: "आपकी कार्ट में जोड़ दिया गया है।",
+    toast_removed_from_cart: "आइटम आपकी कार्ट से हटा दिया गया है।",
+    toast_added_to_wishlist: "आपकी इच्छा-सूची में जोड़ दिया गया है।",
+    toast_removed_from_wishlist: "आपकी इच्छा-सूची से हटा दिया गया है।",
   },
   ur: {
     hero_headline: "جہاں ایمان عیش و عشرت سے ملتا ہے۔",
@@ -311,6 +319,10 @@ const translations: Record<Language, Record<string, string>> = {
     wishlist_empty_title: "آپ کی خواہش کی فہرست خالی ہے۔",
     wishlist_empty_description: "مصنوعات دریافت کریں اور اپنی پسندیدہ چیزیں یہاں شامل کریں۔",
     wishlist_discover_products: "مصنوعات دریافت کریں۔",
+    toast_added_to_cart: "آپ کی ٹوکری میں شامل کر دیا گیا ہے۔",
+    toast_removed_from_cart: "آئٹم آپ کی ٹوکری سے ہٹا دیا گیا ہے۔",
+    toast_added_to_wishlist: "آپ کی خواہش کی فہرست میں شامل کر دیا گیا ہے۔",
+    toast_removed_from_wishlist: "آپ کی خواہش کی فہرست سے ہٹا دیا گیا ہے۔",
   },
   ar: {
     hero_headline: "حيث يلتقي الإيمان بالفخامة",
@@ -413,6 +425,10 @@ const translations: Record<Language, Record<string, string>> = {
     wishlist_empty_title: "قائمة أمنياتك فارغة",
     wishlist_empty_description: "اكتشف المنتجات وأضف مفضلاتك هنا.",
     wishlist_discover_products: "اكتشف المنتجات",
+    toast_added_to_cart: "تمت إضافته إلى سلة التسوق الخاصة بك.",
+    toast_removed_from_cart: "تمت إزالة العنصر من سلة التسوق الخاصة بك.",
+    toast_added_to_wishlist: "تمت إضافته إلى قائمة أمنياتك.",
+    toast_removed_from_wishlist: "تمت إزالته من قائمة أمنياتك.",
   },
 };
 

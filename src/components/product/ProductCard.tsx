@@ -24,7 +24,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   
   return (
     <Card className="group flex flex-col overflow-hidden rounded-lg shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-xl">
@@ -33,7 +33,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className="relative h-48 w-full">
             <Image
               src={product.imageUrls[0]}
-              alt={product.name}
+              alt={product.name[language]}
               fill
               className="object-cover"
               data-ai-hint={product.imageHint}
@@ -48,7 +48,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <CardContent className="p-4 flex-grow">
           <Badge variant="secondary" className="mb-2">{product.category}</Badge>
           <CardTitle className="font-headline text-lg leading-tight">
-            {product.name}
+            {product.name[language]}
           </CardTitle>
         </CardContent>
       </Link>

@@ -1,8 +1,10 @@
+
 "use client";
 
 import type { Product } from "@/lib/data";
 import { useToast } from "@/hooks/use-toast";
 import { createContext, useContext, useState, ReactNode } from "react";
+import { useLanguage } from "./use-language";
 
 export interface CartItem {
   product: Product;
@@ -24,6 +26,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const { toast } = useToast();
+  const { language, t } = useLanguage();
 
   const addToCart = (product: Product, quantity: number = 1) => {
     setCartItems((prevItems) => {
@@ -40,8 +43,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return [...prevItems, { product, quantity }];
     });
     toast({
-      title: "Added to Cart",
-      description: `${product.name} has been added to your cart.`,
+      title: t('product_add_to_cart'),
+      description: `${product.name[language]} ${t('toast_added_to_cart')}`,
     });
   };
 
@@ -50,8 +53,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       prevItems.filter((item) => item.product.id !== productId)
     );
      toast({
-      title: "Removed from Cart",
-      description: `Item has been removed from your cart.`,
+      title: t('product_remove_from_wishlist'),
+      description: t('toast_removed_from_cart'),
       variant: 'destructive'
     });
   };

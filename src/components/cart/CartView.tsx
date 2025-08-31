@@ -93,20 +93,20 @@ interface CartItemRowProps {
 }
 
 function CartItemRow({ item, onQuantityChange, onRemove }: CartItemRowProps) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   return (
     <div className="flex items-center p-4 gap-4">
       <div className="relative h-24 w-24 flex-shrink-0">
         <Image
           src={item.product.imageUrls[0]}
-          alt={item.product.name}
+          alt={item.product.name[language]}
           fill
           className="object-cover rounded-md"
         />
       </div>
       <div className="flex-grow">
         <Link href={`/products/${item.product.id}`} className="hover:underline">
-          <h3 className="font-headline text-lg">{item.product.name}</h3>
+          <h3 className="font-headline text-lg">{item.product.name[language]}</h3>
         </Link>
         <p className="text-muted-foreground text-sm">
           ₹{item.product.price.toFixed(2)}

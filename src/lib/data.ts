@@ -1,6 +1,12 @@
+
 export interface Product {
   id: string;
-  name: string;
+  name: {
+    en: string;
+    hi: string;
+    ur: string;
+    ar: string;
+  };
   description: string;
   price: number;
   imageUrls: string[];
@@ -50,7 +56,12 @@ const sellers: Seller[] = [
 let products: Product[] = [
   {
     id: 'prod-1',
-    name: 'Organic Olive Oil',
+    name: {
+      en: 'Organic Olive Oil',
+      hi: 'जैविक जैतून का तेल',
+      ur: 'نامیاتی زیتون کا تیل',
+      ar: 'زيت زيتون عضوي',
+    },
     description: 'Cold-pressed extra virgin olive oil from the hills of Palestine. Perfect for salads, dips, and cooking. Rich in antioxidants and flavor.',
     price: 1999,
     imageUrls: ['https://picsum.photos/600/400', 'https://picsum.photos/600/400?random=1', 'https://picsum.photos/600/400?random=2'],
@@ -62,7 +73,12 @@ let products: Product[] = [
   },
   {
     id: 'prod-2',
-    name: 'Luxury Silk Hijab',
+    name: {
+      en: 'Luxury Silk Hijab',
+      hi: 'लक्ज़री सिल्क हिजाब',
+      ur: 'لگژری سلک حجاب',
+      ar: 'حجاب حريري فاخر',
+    },
     description: 'A beautiful, lightweight silk hijab in a timeless emerald green. Soft, breathable, and drapes elegantly for a sophisticated look.',
     price: 3600,
     imageUrls: ['https://picsum.photos/600/400'],
@@ -74,7 +90,12 @@ let products: Product[] = [
   },
   {
     id: 'prod-3',
-    name: 'Rosewater Face Mist',
+    name: {
+      en: 'Rosewater Face Mist',
+      hi: 'गुलाब जल फेस मिस्ट',
+      ur: 'عرق گلاب فیس مسٹ',
+      ar: 'رذاذ ماء الورد للوجه',
+    },
     description: 'Hydrating and refreshing face mist made with pure Damask rosewater. Soothes skin, reduces redness, and provides a dewy glow.',
     price: 1480,
     imageUrls: ['https://picsum.photos/600/400'],
@@ -86,7 +107,12 @@ let products: Product[] = [
   },
   {
     id: 'prod-4',
-    name: 'Artisanal Honey',
+    name: {
+      en: 'Artisanal Honey',
+      hi: 'कारीगर शहद',
+      ur: 'کاریگر شہد',
+      ar: 'عسل حرفي',
+    },
     description: 'Raw, unfiltered wildflower honey from local apiaries. A natural sweetener with antibacterial properties.',
     price: 1279,
     imageUrls: ['https://picsum.photos/600/400'],
@@ -98,7 +124,12 @@ let products: Product[] = [
   },
   {
     id: 'prod-5',
-    name: 'Kufi-style Prayer Mat',
+    name: {
+        en: 'Kufi-style Prayer Mat',
+        hi: 'कूफी-शैली की प्रार्थना चटाई',
+        ur: 'کوفی طرز کی جائے نماز',
+        ar: 'سجادة صلاة على الطراز الكوفي',
+    },
     description: 'Plush and comfortable prayer mat with geometric Kufic calligraphy design. Non-slip backing and premium quality.',
     price: 2800,
     imageUrls: ['https://picsum.photos/600/400'],
@@ -110,7 +141,12 @@ let products: Product[] = [
   },
   {
     id: 'prod-6',
-    name: 'Natural Miswak Toothstick',
+    name: {
+        en: 'Natural Miswak Toothstick',
+        hi: 'प्राकृतिक मिस्वाक टूथस्टिक',
+        ur: 'قدرتی مسواک ٹوتھ اسٹک',
+        ar: 'سواك أسنان طبيعي',
+    },
     description: 'A traditional and natural way to clean teeth. Harvested from the Salvadora persica tree, it has numerous dental benefits.',
     price: 479,
     imageUrls: ['https://picsum.photos/600/400'],
@@ -122,7 +158,12 @@ let products: Product[] = [
   },
   {
     id: 'prod-7',
-    name: 'Spiced Date Spread',
+    name: {
+        en: 'Spiced Date Spread',
+        hi: 'मसालेदार खजूर का स्प्रेड',
+        ur: 'مصالحہ دار کھجور کا اسپریڈ',
+        ar: 'معجون التمر المتبل',
+    },
     description: 'A delicious and healthy spread made from Medjool dates, cinnamon, and cardamom. Perfect on toast or with fruit.',
     price: 960,
     imageUrls: ['https://picsum.photos/600/400'],
@@ -134,7 +175,12 @@ let products: Product[] = [
   },
   {
     id: 'prod-8',
-    name: 'Linen Open Abaya',
+    name: {
+        en: 'Linen Open Abaya',
+        hi: 'लिनन ओपन अबाया',
+        ur: 'لینن اوپن عبایا',
+        ar: 'عباءة مفتوحة من الكتان',
+    },
     description: 'A breathable and stylish open abaya made from 100% linen. Perfect for layering in any season.',
     price: 7199,
     imageUrls: ['https://picsum.photos/600/400'],
@@ -146,7 +192,12 @@ let products: Product[] = [
   },
   {
     id: 'prod-9',
-    name: 'Black Seed Oil',
+    name: {
+        en: 'Black Seed Oil',
+        hi: 'कलौंजी का तेल',
+        ur: 'کلونجی کا تیل',
+        ar: 'زيت الحبة السوداء',
+    },
     description: 'Cold-pressed Nigella Sativa oil, known for its powerful immune-boosting and anti-inflammatory properties.',
     price: 2399,
     imageUrls: ['https://picsum.photos/600/400'],
@@ -158,7 +209,12 @@ let products: Product[] = [
   },
   {
     id: 'prod-10',
-    name: 'Argan Oil Hair Serum',
+    name: {
+        en: 'Argan Oil Hair Serum',
+        hi: 'आर्गन ऑयल हेयर सीरम',
+        ur: 'آرگن آئل ہیئر سیرم',
+        ar: 'سيروم زيت الأرغان للشعر',
+    },
     description: 'A nourishing hair serum with pure Moroccan Argan oil. Tames frizz, adds shine, and protects hair from damage.',
     price: 1800,
     imageUrls: ['https://picsum.photos/600/400'],
@@ -170,7 +226,12 @@ let products: Product[] = [
   },
   {
     id: 'prod-11',
-    name: 'Geometric Islamic Wall Art',
+    name: {
+        en: 'Geometric Islamic Wall Art',
+        hi: 'ज्यामितीय इस्लामी दीवार कला',
+        ur: 'جیومیٹرک اسلامی وال آرٹ',
+        ar: 'فن جداري إسلامي هندسي',
+    },
     description: 'Intricate laser-cut wood wall art featuring a stunning geometric pattern. A beautiful addition to any modern Muslim home.',
     price: 9600,
     imageUrls: ['https://picsum.photos/600/400'],
@@ -182,7 +243,12 @@ let products: Product[] = [
   },
   {
     id: 'prod-12',
-    name: 'Halal Gummy Candies',
+    name: {
+        en: 'Halal Gummy Candies',
+        hi: 'हलाल गमी कैंडीज',
+        ur: 'حلال گمی کینڈیز',
+        ar: 'حلوى جيلاتينية حلال',
+    },
     description: 'Assorted fruit-flavored gummy candies made with beef gelatin. A sweet treat for all ages.',
     price: 600,
     imageUrls: ['https://picsum.photos/600/400'],
@@ -240,7 +306,13 @@ export async function getProducts(options?: { category?: string; search?: string
 
   if (options?.search) {
     const searchTerm = options.search.toLowerCase();
-    filteredProducts = filteredProducts.filter(p => p.name.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm));
+    filteredProducts = filteredProducts.filter(p => 
+      p.name.en.toLowerCase().includes(searchTerm) || 
+      p.name.hi.toLowerCase().includes(searchTerm) ||
+      p.name.ur.toLowerCase().includes(searchTerm) ||
+      p.name.ar.toLowerCase().includes(searchTerm) ||
+      p.description.toLowerCase().includes(searchTerm)
+    );
   }
   
   return filteredProducts;

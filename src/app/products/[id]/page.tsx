@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import { useState, useEffect, use } from "react";
@@ -17,6 +16,7 @@ import { AddToWishlistButton } from "@/components/product/AddToWishlistButton";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/use-auth";
+import { useLanguage } from "@/hooks/use-language";
 
 
 type ProductPageProps = {
@@ -33,6 +33,7 @@ export default function ProductPage({ params: paramsPromise }: ProductPageProps)
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
   const { user } = useAuth();
+  const { language } = useLanguage();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -111,7 +112,7 @@ export default function ProductPage({ params: paramsPromise }: ProductPageProps)
                     <div className="relative aspect-square w-full">
                     <Image
                         src={product.imageUrls[activeImage]}
-                        alt={product.name}
+                        alt={product.name[language]}
                         fill
                         className="object-cover"
                         data-ai-hint={product.imageHint}
@@ -133,7 +134,7 @@ export default function ProductPage({ params: paramsPromise }: ProductPageProps)
                         >
                             <Image
                                 src={url}
-                                alt={`${product.name} thumbnail ${index + 1}`}
+                                alt={`${product.name[language]} thumbnail ${index + 1}`}
                                 fill
                                 className="object-cover"
                             />
@@ -145,7 +146,7 @@ export default function ProductPage({ params: paramsPromise }: ProductPageProps)
         
         <div className="flex flex-col">
           <Badge variant="outline" className="w-fit">{product.category}</Badge>
-          <h1 className="font-headline text-4xl md:text-5xl my-3">{product.name}</h1>
+          <h1 className="font-headline text-4xl md:text-5xl my-3">{product.name[language]}</h1>
           <p className="text-3xl font-bold text-secondary mb-4">₹{product.price.toFixed(2)}</p>
           
           <p className="font-body text-muted-foreground leading-relaxed">{product.description}</p>

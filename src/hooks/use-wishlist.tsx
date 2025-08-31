@@ -30,7 +30,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
       }
   });
   const { toast } = useToast();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     try {
@@ -47,7 +47,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
       }
       toast({
         title: t('product_add_to_wishlist'),
-        description: `${product.name} ${t('toast_added_to_wishlist')}`,
+        description: `${product.name[language]} ${t('toast_added_to_wishlist')}`,
       });
       return [...prevItems, product];
     });
@@ -61,7 +61,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     if(itemToRemove) {
       toast({
         title: t('product_remove_from_wishlist'),
-        description: `${itemToRemove.name} ${t('toast_removed_from_wishlist')}`,
+        description: `${itemToRemove.name[language]} ${t('toast_removed_from_wishlist')}`,
         variant: 'destructive'
       });
     }

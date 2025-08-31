@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState } from "react";
@@ -9,6 +10,7 @@ import Image from "next/image";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/hooks/use-language";
 
 interface SellerProductListProps {
     limit?: number;
@@ -18,6 +20,7 @@ export function SellerProductList({ limit }: SellerProductListProps) {
     const { user } = useAuth();
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
+    const { language } = useLanguage();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -58,13 +61,13 @@ export function SellerProductList({ limit }: SellerProductListProps) {
                             <TableCell>
                                 <Image 
                                     src={product.imageUrls[0]} 
-                                    alt={product.name} 
+                                    alt={product.name[language]} 
                                     width={48} 
                                     height={48} 
                                     className="rounded-md object-cover"
                                 />
                             </TableCell>
-                            <TableCell className="font-medium">{product.name}</TableCell>
+                            <TableCell className="font-medium">{product.name[language]}</TableCell>
                             <TableCell><Badge variant="outline">{product.category}</Badge></TableCell>
                             <TableCell>₹{product.price.toFixed(2)}</TableCell>
                             <TableCell>

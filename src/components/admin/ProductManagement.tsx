@@ -1,5 +1,4 @@
 
-
 "use client"
 
 import { useEffect, useState } from 'react';
@@ -26,10 +25,12 @@ import Image from 'next/image';
 import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import Link from 'next/link';
+import { useLanguage } from '@/hooks/use-language';
 
 export function ProductManagement() {
   const [products, setProducts] = useState<Product[]>([]);
   const { toast } = useToast();
+  const { language } = useLanguage();
 
   const fetchAllProducts = async () => {
     const allProducts = await getAllProducts();
@@ -91,11 +92,11 @@ export function ProductManagement() {
             {products.map((product) => (
               <TableRow key={product.id}>
                 <TableCell>
-                  <Image src={product.imageUrls[0]} alt={product.name} width={48} height={48} className="rounded-md object-cover" />
+                  <Image src={product.imageUrls[0]} alt={product.name[language]} width={48} height={48} className="rounded-md object-cover" />
                 </TableCell>
                 <TableCell className="font-medium">
                   <Link href={`/products/${product.id}`} className="hover:underline text-primary">
-                    {product.name}
+                    {product.name[language]}
                   </Link>
                 </TableCell>
                 <TableCell>{product.sellerId}</TableCell>
@@ -128,7 +129,7 @@ export function ProductManagement() {
                                     Edit
                                 </Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(product.id, product.name)} className="text-destructive focus:bg-destructive/10 focus:text-destructive">
+                            <DropdownMenuItem onClick={() => handleDelete(product.id, product.name[language])} className="text-destructive focus:bg-destructive/10 focus:text-destructive">
                                 <Trash2 className="mr-2 h-4 w-4" />
                                 Delete
                             </DropdownMenuItem>

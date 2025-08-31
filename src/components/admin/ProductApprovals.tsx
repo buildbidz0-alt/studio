@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState } from 'react';
@@ -21,10 +22,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import { useLanguage } from '@/hooks/use-language';
 
 export function ProductApprovals() {
   const [pendingProducts, setPendingProducts] = useState<Product[]>([]);
   const { toast } = useToast();
+  const { language } = useLanguage();
 
   const fetchPendingProducts = async () => {
     const products = await getPendingProducts();
@@ -83,9 +86,9 @@ export function ProductApprovals() {
             {pendingProducts.map((product) => (
               <TableRow key={product.id}>
                 <TableCell>
-                  <Image src={product.imageUrls[0]} alt={product.name} width={48} height={48} className="rounded-md object-cover" />
+                  <Image src={product.imageUrls[0]} alt={product.name[language]} width={48} height={48} className="rounded-md object-cover" />
                 </TableCell>
-                <TableCell className="font-medium">{product.name}</TableCell>
+                <TableCell className="font-medium">{product.name[language]}</TableCell>
                 <TableCell>{product.sellerId}</TableCell>
                 <TableCell>₹{product.price.toFixed(2)}</TableCell>
                 <TableCell className="text-right space-x-2">

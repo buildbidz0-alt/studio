@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useForm } from "react-hook-form";
@@ -30,13 +31,17 @@ import { useToast } from "@/hooks/use-toast";
 import { addProduct, updateProduct, type Product } from "@/lib/data";
 import Image from "next/image";
 import { UploadCloud, X } from "lucide-react";
+import { useLanguage } from "@/hooks/use-language";
 
 const MAX_IMAGES = 5;
 const MAX_FILE_SIZE = 5000000; // 5MB
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const formSchema = z.object({
-  name: z.string().min(3, "Product name must be at least 3 characters."),
+  name_en: z.string().min(3, "Product name must be at least 3 characters."),
+  name_hi: z.string().min(1, "Hindi name is required."),
+  name_ur: z.string().min(1, "Urdu name is required."),
+  name_ar: z.string().min(1, "Arabic name is required."),
   description: z.string().min(10, "Description must be at least 10 characters."),
   price: z.coerce.number().positive("Price must be a positive number."),
   category: z.enum(['Food', 'Cosmetics', 'Apparel', 'Home Goods']),
@@ -60,13 +65,17 @@ export function ProductForm({ product }: ProductFormProps) {
   const { user } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
+  const { language } = useLanguage();
   const [imagePreviews, setImagePreviews] = useState<string[]>(product?.imageUrls || []);
   const isEditMode = !!product;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      name_en: "",
+      name_hi: "",
+      name_ur: "",
+      name_ar: "",
       description: "",
       price: 0,
       category: "Food",
@@ -79,7 +88,10 @@ export function ProductForm({ product }: ProductFormProps) {
    useEffect(() => {
     if (isEditMode && product) {
       form.reset({
-        name: product.name,
+        name_en: product.name.en,
+        name_hi: product.name.hi,
+        name_ur: product.name.ur,
+        name_ar: product.name.ar,
         description: product.description,
         price: product.price,
         category: product.category,
@@ -127,7 +139,6 @@ export function ProductForm({ product }: ProductFormProps) {
     if (currentImages && typeof currentImages !== 'string') {
         const newImages = Array.from(currentImages).filter((_, i) => i !== index);
         
-        // Create a new FileList
         const dataTransfer = new DataTransfer();
         newImages.forEach(file => dataTransfer.items.add(file as File));
         form.setValue("images", dataTransfer.files);
@@ -152,34 +163,39 @@ export function ProductForm({ product }: ProductFormProps) {
         });
         return;
     }
+    
+    const productDataPayload = {
+        name: {
+            en: values.name_en,
+            hi: values.name_hi,
+            ur: values.name_ur,
+            ar: values.name_ar,
+        },
+        description: values.description,
+        price: values.price,
+        category: values.category,
+        isHalalCertified: values.isHalalCertified,
+        imageHint: values.imageHint,
+        imageUrls: imagePreviews,
+    };
+
 
     try {
         if (isEditMode && product) {
-            const updatedData = {
-                ...values,
-                imageUrls: imagePreviews, // Use potentially updated previews
-            };
-            await updateProduct(product.id, updatedData);
+            await updateProduct(product.id, productDataPayload);
             toast({
                 title: "Product Updated!",
-                description: `${values.name} has been successfully updated.`,
+                description: `${productDataPayload.name[language]} has been successfully updated.`,
             });
             router.push(user.role === 'admin' ? '/admin' : '/seller/dashboard/products');
         } else {
-            const productData = {
-                name: values.name,
-                description: values.description,
-                price: values.price,
-                category: values.category,
-                isHalalCertified: values.isHalalCertified,
-                imageHint: values.imageHint,
-                imageUrls: imagePreviews, // Use the base64 previews
+            await addProduct({
+                ...productDataPayload,
                 sellerId: user.id
-            }
-            await addProduct(productData);
+            });
             toast({
                 title: "Product Submitted!",
-                description: `${values.name} has been submitted for review.`,
+                description: `${productDataPayload.name[language]} has been submitted for review.`,
             });
             router.push("/seller/dashboard/products");
         }
@@ -195,19 +211,62 @@ export function ProductForm({ product }: ProductFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product Name</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g., Organic Olive Oil" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="name_en"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Name (English)</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., Organic Olive Oil" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+           <FormField
+            control={form.control}
+            name="name_hi"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Name (Hindi)</FormLabel>
+                <FormControl>
+                  <Input placeholder="उदा., जैविक जैतून का तेल" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+         <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="name_ur"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Name (Urdu)</FormLabel>
+                <FormControl>
+                  <Input placeholder="مثلاً، نامیاتی زیتون کا تیل" {...field} dir="rtl" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+           <FormField
+            control={form.control}
+            name="name_ar"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Name (Arabic)</FormLabel>
+                <FormControl>
+                  <Input placeholder="مثال، زيت زيتون عضوي" {...field} dir="rtl"/>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
          <FormField
           control={form.control}
           name="description"
