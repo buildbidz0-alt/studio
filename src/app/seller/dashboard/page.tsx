@@ -5,7 +5,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { DollarSign, Package, ShoppingCart, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { DollarSign, Package, ShoppingCart, Users, PlusCircle } from "lucide-react";
+import Link from "next/link";
+import { SellerProductList } from "@/components/seller/SellerProductList";
 
 export default function SellerDashboardPage() {
   return (
@@ -72,7 +75,7 @@ export default function SellerDashboardPage() {
           </CardContent>
         </Card>
       </div>
-      <div className="mt-8">
+      <div className="mt-8 grid gap-8 md:grid-cols-2">
         <Card>
             <CardHeader>
                 <CardTitle>Recent Orders</CardTitle>
@@ -81,6 +84,23 @@ export default function SellerDashboardPage() {
             <CardContent>
                 <p className="text-muted-foreground">Order management will be available here soon.</p>
             </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Manage Your Products</CardTitle>
+              <CardDescription>Add, edit, or remove your product listings.</CardDescription>
+            </div>
+            <Button asChild>
+                <Link href="/seller/dashboard/products">
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Add Product
+                </Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <SellerProductList limit={3} />
+          </CardContent>
         </Card>
       </div>
     </div>

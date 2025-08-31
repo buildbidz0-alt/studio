@@ -46,7 +46,7 @@ const sellers: Seller[] = [
   }
 ];
 
-const products: Product[] = [
+let products: Product[] = [
   {
     id: 'prod-1',
     name: 'Organic Olive Oil',
@@ -180,6 +180,16 @@ const products: Product[] = [
     imageHint: 'gummy bears',
   }
 ];
+
+export async function addProduct(productData: Omit<Product, 'id'>): Promise<Product> {
+  const newProduct: Product = {
+    id: `prod-${Date.now()}`,
+    ...productData,
+  };
+  products.unshift(newProduct);
+  return newProduct;
+}
+
 
 export async function getProducts(options?: { category?: string; search?: string }): Promise<Product[]> {
   let filteredProducts = products;
