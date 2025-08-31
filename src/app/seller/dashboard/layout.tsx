@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useAuth } from "@/hooks/use-auth";
@@ -15,16 +16,36 @@ export default function SellerLayout({
   const { user, isLoading, logout } = useAuth();
   const router = useRouter();
 
+  const isAllowed = user?.role === 'seller' || user?.role === 'admin';
+
   useEffect(() => {
     if (!isLoading) {
-      if (!user || user.role !== "seller") {
+      if (!isAllowed) {
         router.replace("/login");
       }
     }
-  }, [user, isLoading, router]);
+  }, [user, isLoading, router, isAllowed]);
 
-  if (isLoading || !user || user.role !== "seller") {
+  if (isLoading || !user) {
     return (
+      <div className="container mx-auto py-24 flex items-center justify-center">
+          <Card className="w-[450px]">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <AlertTriangle className="text-destructive" />
+                Loading...
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p>Checking permissions...</p>
+            </CardContent>
+          </Card>
+        </div>
+    );
+  }
+
+  if (!isAllowed) {
+     return (
       <div className="container mx-auto py-24 flex items-center justify-center">
           <Card className="w-[450px]">
             <CardHeader>
@@ -34,14 +55,14 @@ export default function SellerLayout({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p>You must be logged in as a seller to view this page.</p>
+              <p>You must be logged in as a seller or admin to view this page.</p>
             </CardContent>
           </Card>
         </div>
     );
   }
 
-  if (user.status !== "approved") {
+  if (user.role === 'seller' && user.status !== "approved") {
     return (
         <div className="container mx-auto py-24 flex items-center justify-center">
             <Card className="w-[450px] text-center">
