@@ -1,3 +1,4 @@
+
 // This file enables the edit functionality for products.
 "use client";
 
@@ -12,10 +13,11 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { getProductById, type Product } from "@/lib/data";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { useAuth } from "@/hooks/use-auth";
 
-export default function EditProductPage({ params }: { params: { id: string } }) {
+export default function EditProductPage({ params: paramsPromise }: { params: Promise<{ id: string }> }) {
+    const params = use(paramsPromise);
     const [product, setProduct] = useState<Product | undefined>(undefined);
     const [loading, setLoading] = useState(true);
     const { user } = useAuth();
