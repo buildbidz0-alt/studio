@@ -14,23 +14,23 @@ export default async function Home() {
     <div className="flex flex-col">
       <section className="relative h-[60vh] w-full">
         <Image
-          src="https://picsum.photos/1800/1000"
-          alt="Artisanal halal products"
+          src="https://picsum.photos/1800/1200"
+          alt="Elegant halal lifestyle products"
           fill
           className="object-cover"
           priority
-          data-ai-hint="market bazaar"
+          data-ai-hint="elegant fabric"
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white">
           <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl">
-            Authentic Halal Products
+            Where Faith Meets Luxury
           </h1>
           <p className="mt-4 max-w-2xl font-body text-lg md:text-xl">
-            Discover a curated marketplace of the finest halal products, verified for your peace of mind.
+            Discover a world of premium halal-certified products, curated with elegance and verified for authenticity.
           </p>
           <Button asChild size="lg" className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90">
-            <Link href="/products">Shop Now</Link>
+            <Link href="/products">Enter the Collection</Link>
           </Button>
         </div>
       </section>
