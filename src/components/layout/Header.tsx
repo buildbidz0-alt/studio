@@ -11,6 +11,7 @@ import {
   Shield,
   Store,
   Briefcase,
+  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -186,12 +187,20 @@ export function Header() {
                     </DropdownMenuItem>
                   )}
                   {user.role === 'seller' && (
-                     <DropdownMenuItem asChild>
-                        <Link href="/seller/dashboard">
-                            <Store className="mr-2 h-4 w-4" />
-                            <span>Seller Dashboard</span>
-                        </Link>
-                    </DropdownMenuItem>
+                    <>
+                      <DropdownMenuItem asChild>
+                          <Link href="/seller/dashboard">
+                              <Store className="mr-2 h-4 w-4" />
+                              <span>Seller Dashboard</span>
+                          </Link>
+                      </DropdownMenuItem>
+                       <DropdownMenuItem asChild>
+                          <Link href="/seller/dashboard/settings">
+                              <Settings className="mr-2 h-4 w-4" />
+                              <span>Store Settings</span>
+                          </Link>
+                      </DropdownMenuItem>
+                    </>
                   )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={logout}>

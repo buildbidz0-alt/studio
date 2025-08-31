@@ -26,6 +26,7 @@ interface AuthContextType {
   signup: (values: Omit<User, 'id'>) => Promise<void>;
   logout: () => void;
   updateUserStatus: (userId: string, status: 'pending' | 'approved' | 'rejected') => void;
+  updateUser: (userData: User) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -94,6 +95,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       window.localStorage.setItem('jalal-bazaar-users', JSON.stringify(newUsers));
   }
 
+   const persistUser = (newUser: User | null) => {
+      setUser(newUser);
+      if (newUser) {
+        window.localStorage.setItem('jalal-bazaar-user', JSON.stringify(newUser));
+      } else {
+        window.localStorage.removeItem('jalal-bazaar-user');
+      }
+  }
+
   const login = async (email: string, password: string): Promise<void> => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -104,15 +114,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (foundUser && ((lowerCaseEmail === 'admin@jalalbazaar.com' && password === '596847464j') || password === 'password123')) {
           
           if (foundUser.role === 'seller' && foundUser.status !== 'approved') {
-            setUser(foundUser);
-            window.localStorage.setItem('jalal-bazaar-user', JSON.stringify(foundUser));
+            persistUser(foundUser);
             router.push('/seller/dashboard'); // Redirect to dashboard to see status
             resolve();
             return;
           }
           
-          setUser(foundUser);
-          window.localStorage.setItem('jalal-bazaar-user', JSON.stringify(foundUser));
+          persistUser(foundUser);
           toast({
             title: "Login Successful",
             description: `Welcome back, ${foundUser.firstName}!`,
@@ -143,8 +151,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const newUsers = [...users, newUser];
           persistUsers(newUsers);
           
-          setUser(newUser);
-          window.localStorage.setItem('jalal-bazaar-user', JSON.stringify(newUser));
+          persistUser(newUser);
           toast({
               title: "Account Created!",
               description: `Welcome to Jalal Bazaar, ${newUser.firstName}!`,
@@ -162,8 +169,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
-    setUser(null);
-    window.localStorage.removeItem('jalal-bazaar-user');
+    persistUser(null);
     toast({
       title: "Logged Out",
       description: "You have been successfully logged out.",
@@ -181,6 +187,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       persistUsers(newUsers);
   }, [users]);
 
+  const updateUser = async (userData: User): Promise<void> => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            const newUsers = users.map(u => (u.id === userData.id ? userData : u));
+            persistUsers(newUsers);
+            if(user && user.id === userData.id) {
+                persistUser(userData);
+            }
+            resolve();
+        }, 500)
+    })
+  }
+
 
   const value = {
     user,
@@ -189,6 +208,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signup,
     logout,
     updateUserStatus,
+    updateUser,
     isLoading
   };
 
