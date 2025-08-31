@@ -128,7 +128,7 @@ export function ProductManagement() {
                                 <Pencil className="mr-2 h-4 w-4" />
                                 Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(product.id, product.name)} className="text-destructive">
+                            <DropdownMenuItem onClick={() => handleDelete(product.id, product.name)} className="text-destructive focus:bg-destructive/10 focus:text-destructive">
                                 <Trash2 className="mr-2 h-4 w-4" />
                                 Delete
                             </DropdownMenuItem>
@@ -143,4 +143,3 @@ export function ProductManagement() {
     </Card>
   );
 }
-
