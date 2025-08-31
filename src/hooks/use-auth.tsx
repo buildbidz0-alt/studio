@@ -23,6 +23,7 @@ export interface User {
 interface AuthContextType {
   user: User | null;
   users: User[];
+  getUserById: (id: string) => User | undefined;
   login: (email: string, password: string) => Promise<void>;
   signup: (values: Omit<User, 'id'>) => Promise<void>;
   logout: () => void;
@@ -203,10 +204,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
   }
 
+  const getUserById = (id: string) => {
+    return users.find(u => u.id === id);
+  }
 
   const value = {
     user,
     users,
+    getUserById,
     login,
     signup,
     logout,

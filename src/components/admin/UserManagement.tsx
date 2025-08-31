@@ -29,6 +29,7 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { User } from "@/hooks/use-auth";
+import Link from "next/link";
 
 export function UserManagement() {
   const { users, updateUserStatus } = useAuth();
@@ -55,7 +56,7 @@ export function UserManagement() {
       <CardHeader>
         <CardTitle>User Management</CardTitle>
         <CardDescription>
-          View and manage all user accounts on the platform.
+          View and manage all user accounts on the platform. Click on a user's name to see full details.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -72,7 +73,11 @@ export function UserManagement() {
           <TableBody>
             {users.map((user) => (
               <TableRow key={user.id}>
-                <TableCell className="font-medium">{user.role === 'seller' ? user.storeName : `${user.firstName} ${user.lastName}`}</TableCell>
+                <TableCell className="font-medium">
+                  <Link href={`/admin/users/${user.id}`} className="hover:underline text-primary">
+                    {user.role === 'seller' ? user.storeName : `${user.firstName} ${user.lastName}`}
+                  </Link>
+                </TableCell>
                 <TableCell>{user.email}</TableCell>
                  <TableCell>
                   <Badge variant="outline" className="capitalize">{user.role}</Badge>
@@ -103,18 +108,10 @@ export function UserManagement() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                       <DropdownMenuLabel>User Details</DropdownMenuLabel>
+                       <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
                        <DropdownMenuSeparator />
-                       <div className="px-2 py-1.5 text-xs text-muted-foreground">
-                        <p><span className="font-semibold">Name:</span> {user.firstName} {user.lastName}</p>
-                        {user.role === 'seller' && user.gstNumber && <p><span className="font-semibold">GST:</span> {user.gstNumber}</p>}
-                        {user.role === 'seller' && user.bankAccountNumber && <p><span className="font-semibold">Bank Acc:</span> {user.bankAccountNumber}</p>}
-                        {user.role === 'seller' && user.ifscCode && <p><span className="font-semibold">IFSC:</span> {user.ifscCode}</p>}
-                       </div>
                        {user.role === 'seller' && (
                         <>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuLabel>Seller Actions</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => handleStatusChange(user, 'approved')}>
                             Approve
                           </DropdownMenuItem>
@@ -126,6 +123,9 @@ export function UserManagement() {
                           </DropdownMenuItem>
                         </>
                        )}
+                       <DropdownMenuItem>
+                          <Link href={`/admin/users/${user.id}`} className="w-full">View Full Details</Link>
+                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
