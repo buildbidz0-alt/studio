@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -147,20 +148,22 @@ export function Header() {
               <Search className="h-5 w-5" />
               <span className="sr-only">Search</span>
             </Button>
-            <Button asChild variant="ghost" size="icon">
-              <Link href="/cart" className="relative">
-                <ShoppingBag className="h-5 w-5" />
-                {cartCount > 0 && (
-                  <Badge
-                    variant="default"
-                    className="absolute -right-2 -top-2 h-5 w-5 justify-center rounded-full bg-accent p-0 text-accent-foreground"
-                  >
-                    {cartCount}
-                  </Badge>
-                )}
-                <span className="sr-only">Shopping Cart</span>
-              </Link>
-            </Button>
+            {user?.role !== 'admin' && (
+              <Button asChild variant="ghost" size="icon">
+                <Link href="/cart" className="relative">
+                  <ShoppingBag className="h-5 w-5" />
+                  {cartCount > 0 && (
+                    <Badge
+                      variant="default"
+                      className="absolute -right-2 -top-2 h-5 w-5 justify-center rounded-full bg-accent p-0 text-accent-foreground"
+                    >
+                      {cartCount}
+                    </Badge>
+                  )}
+                  <span className="sr-only">Shopping Cart</span>
+                </Link>
+              </Button>
+            )}
             {user ? (
                <DropdownMenu>
                 <DropdownMenuTrigger asChild>
