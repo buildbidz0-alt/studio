@@ -11,6 +11,7 @@ import { UserManagement } from "@/components/admin/UserManagement";
 import { AuditLog } from "@/components/admin/AuditLog";
 import { ProductApprovals } from "@/components/admin/ProductApprovals";
 import { ProductManagement } from "@/components/admin/ProductManagement";
+import { SalesAnalytics } from "@/components/admin/SalesAnalytics";
 
 export default function AdminDashboardPage() {
   return (
@@ -78,13 +79,17 @@ export default function AdminDashboardPage() {
         </Card>
       </div>
       <div className="mt-8">
-        <Tabs defaultValue="users">
+        <Tabs defaultValue="analytics">
           <TabsList className="mb-4">
+            <TabsTrigger value="analytics">Sales Analytics</TabsTrigger>
             <TabsTrigger value="users">User Management</TabsTrigger>
             <TabsTrigger value="approvals">Product Approvals</TabsTrigger>
             <TabsTrigger value="products">Product Management</TabsTrigger>
             <TabsTrigger value="audit">Audit Log</TabsTrigger>
           </TabsList>
+          <TabsContent value="analytics">
+            <SalesAnalytics />
+          </TabsContent>
           <TabsContent value="users">
             <UserManagement />
           </TabsContent>
