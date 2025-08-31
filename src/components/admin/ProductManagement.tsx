@@ -51,14 +51,6 @@ export function ProductManagement() {
     fetchAllProducts(); // Refresh the list
   };
 
-  const handleEdit = (productId: string) => {
-      // In a real app, this would open a modal or navigate to an edit page
-      toast({
-          title: "Edit Action",
-          description: `Navigating to edit page for product ${productId}. (Not implemented)`
-      })
-  }
-
   if (products.length === 0) {
     return (
         <Card>
@@ -130,9 +122,11 @@ export function ProductManagement() {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            <DropdownMenuItem onClick={() => handleEdit(product.id)}>
-                                <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                            <DropdownMenuItem asChild>
+                                <Link href={`/seller/dashboard/products/${product.id}/edit`}>
+                                    <Pencil className="mr-2 h-4 w-4" />
+                                    Edit
+                                </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleDelete(product.id, product.name)} className="text-destructive focus:bg-destructive/10 focus:text-destructive">
                                 <Trash2 className="mr-2 h-4 w-4" />

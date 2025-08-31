@@ -25,9 +25,9 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuth } from "@/hooks/use-auth";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { addProduct } from "@/lib/data";
+import { addProduct, updateProduct, type Product } from "@/lib/data";
 import Image from "next/image";
 import { UploadCloud, X } from "lucide-react";
 
@@ -47,16 +47,21 @@ const formSchema = z.object({
     .refine(
       (files) => Array.from(files).every((file: any) => ACCEPTED_IMAGE_TYPES.includes(file?.type)),
       "Only .jpg, .png and .webp formats are supported."
-    ),
+    ).optional().or(z.literal('')),
   isHalalCertified: z.boolean().default(false),
   imageHint: z.string().optional(),
 });
 
-export function ProductForm() {
+interface ProductFormProps {
+    product?: Product;
+}
+
+export function ProductForm({ product }: ProductFormProps) {
   const { user } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>(product?.imageUrls || []);
+  const isEditMode = !!product;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -70,6 +75,20 @@ export function ProductForm() {
       images: [],
     },
   });
+
+   useEffect(() => {
+    if (isEditMode && product) {
+      form.reset({
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        category: product.category,
+        isHalalCertified: product.isHalalCertified,
+        imageHint: product.imageHint || "",
+      });
+      setImagePreviews(product.imageUrls);
+    }
+  }, [product, isEditMode, form]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -105,19 +124,21 @@ export function ProductForm() {
     setImagePreviews(newPreviews);
     
     const currentImages = form.getValues("images");
-    const newImages = Array.from(currentImages).filter((_, i) => i !== index);
-    
-    // Create a new FileList
-    const dataTransfer = new DataTransfer();
-    newImages.forEach(file => dataTransfer.items.add(file as File));
-    form.setValue("images", dataTransfer.files);
+    if (currentImages && typeof currentImages !== 'string') {
+        const newImages = Array.from(currentImages).filter((_, i) => i !== index);
+        
+        // Create a new FileList
+        const dataTransfer = new DataTransfer();
+        newImages.forEach(file => dataTransfer.items.add(file as File));
+        form.setValue("images", dataTransfer.files);
+    }
   }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (!user || user.role !== 'seller') {
+    if (!user) {
         toast({
             title: "Authentication Error",
-            description: "You must be logged in as a seller to add a product.",
+            description: "You must be logged in to perform this action.",
             variant: "destructive"
         });
         return;
@@ -133,26 +154,39 @@ export function ProductForm() {
     }
 
     try {
-        const productData = {
-            name: values.name,
-            description: values.description,
-            price: values.price,
-            category: values.category,
-            isHalalCertified: values.isHalalCertified,
-            imageHint: values.imageHint,
-            imageUrls: imagePreviews, // Use the base64 previews
-            sellerId: user.id
+        if (isEditMode && product) {
+            const updatedData = {
+                ...values,
+                imageUrls: imagePreviews, // Use potentially updated previews
+            };
+            await updateProduct(product.id, updatedData);
+            toast({
+                title: "Product Updated!",
+                description: `${values.name} has been successfully updated.`,
+            });
+            router.push(user.role === 'admin' ? '/admin' : '/seller/dashboard/products');
+        } else {
+            const productData = {
+                name: values.name,
+                description: values.description,
+                price: values.price,
+                category: values.category,
+                isHalalCertified: values.isHalalCertified,
+                imageHint: values.imageHint,
+                imageUrls: imagePreviews, // Use the base64 previews
+                sellerId: user.id
+            }
+            await addProduct(productData);
+            toast({
+                title: "Product Submitted!",
+                description: `${values.name} has been submitted for review.`,
+            });
+            router.push("/seller/dashboard/products");
         }
-        await addProduct(productData);
-        toast({
-            title: "Product Submitted!",
-            description: `${values.name} has been submitted for review.`,
-        });
-        router.push("/seller/dashboard/products");
     } catch (err: any) {
          toast({
             title: "Error",
-            description: "There was an error submitting your product. Please try again.",
+            description: `There was an error submitting your product. Please try again. ${err.message}`,
             variant: "destructive"
         });
     }
@@ -313,7 +347,9 @@ export function ProductForm() {
           )}
         />
         <Button type="submit" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? 'Submitting Product...' : 'Submit for Review'}
+          {form.formState.isSubmitting 
+            ? (isEditMode ? 'Saving Changes...' : 'Submitting Product...') 
+            : (isEditMode ? 'Save Changes' : 'Submit for Review')}
         </Button>
       </form>
     </Form>
