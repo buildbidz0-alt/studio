@@ -1,4 +1,5 @@
 
+
 "use client"
 
 import { useEffect, useState } from 'react';
@@ -24,6 +25,7 @@ import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
 import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import Link from 'next/link';
 
 export function ProductManagement() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -99,7 +101,11 @@ export function ProductManagement() {
                 <TableCell>
                   <Image src={product.imageUrls[0]} alt={product.name} width={48} height={48} className="rounded-md object-cover" />
                 </TableCell>
-                <TableCell className="font-medium">{product.name}</TableCell>
+                <TableCell className="font-medium">
+                  <Link href={`/products/${product.id}`} className="hover:underline text-primary">
+                    {product.name}
+                  </Link>
+                </TableCell>
                 <TableCell>{product.sellerId}</TableCell>
                 <TableCell>₹{product.price.toFixed(2)}</TableCell>
                 <TableCell>
