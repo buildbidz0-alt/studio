@@ -94,7 +94,7 @@ function CartItemRow({ item, onQuantityChange, onRemove }: CartItemRowProps) {
     <div className="flex items-center p-4 gap-4">
       <div className="relative h-24 w-24 flex-shrink-0">
         <Image
-          src={item.product.imageUrl}
+          src={item.product.imageUrls[0]}
           alt={item.product.name}
           fill
           className="object-cover rounded-md"

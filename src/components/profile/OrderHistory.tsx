@@ -29,8 +29,8 @@ const mockOrders: Order[] = [
     status: 'Delivered',
     total: 4878,
     items: [
-      { product: { id: 'prod-2', name: 'Luxury Silk Hijab', price: 3600, imageUrl: 'https://picsum.photos/100/100', category: 'Apparel', sellerId: 'seller-2', isHalalCertified: true, imageHint: 'silk scarf' } as Product, quantity: 1 },
-      { product: { id: 'prod-4', name: 'Artisanal Honey', price: 1279, imageUrl: 'https://picsum.photos/100/100', category: 'Food', sellerId: 'seller-1', isHalalCertified: true, imageHint: 'honey jar' } as Product, quantity: 1 },
+      { product: { id: 'prod-2', name: 'Luxury Silk Hijab', price: 3600, imageUrls: ['https://picsum.photos/100/100'], category: 'Apparel', sellerId: 'seller-2', isHalalCertified: true, imageHint: 'silk scarf' } as Product, quantity: 1 },
+      { product: { id: 'prod-4', name: 'Artisanal Honey', price: 1279, imageUrls: ['https://picsum.photos/100/100'], category: 'Food', sellerId: 'seller-1', isHalalCertified: true, imageHint: 'honey jar' } as Product, quantity: 1 },
     ],
   },
   {
@@ -39,8 +39,8 @@ const mockOrders: Order[] = [
     status: 'Processing',
     total: 8999,
     items: [
-       { product: { id: 'prod-8', name: 'Linen Open Abaya', price: 7199, imageUrl: 'https://picsum.photos/100/100', category: 'Apparel', sellerId: 'seller-2', isHalalCertified: true, imageHint: 'modest fashion' } as Product, quantity: 1 },
-       { product: { id: 'prod-10', name: 'Argan Oil Hair Serum', price: 1800, imageUrl: 'https://picsum.photos/100/100', category: 'Cosmetics', sellerId: 'seller-3', isHalalCertified: true, imageHint: 'hair oil' } as Product, quantity: 1 },
+       { product: { id: 'prod-8', name: 'Linen Open Abaya', price: 7199, imageUrls: ['https://picsum.photos/100/100'], category: 'Apparel', sellerId: 'seller-2', isHalalCertified: true, imageHint: 'modest fashion' } as Product, quantity: 1 },
+       { product: { id: 'prod-10', name: 'Argan Oil Hair Serum', price: 1800, imageUrls: ['https://picsum.photos/100/100'], category: 'Cosmetics', sellerId: 'seller-3', isHalalCertified: true, imageHint: 'hair oil' } as Product, quantity: 1 },
     ],
   },
 ];
@@ -77,7 +77,7 @@ export function OrderHistory() {
                         <h4 className="font-semibold">Items in this order</h4>
                         {order.items.map(item => (
                             <div key={item.product.id} className="flex items-center gap-4">
-                                <Image src={item.product.imageUrl} alt={item.product.name} width={64} height={64} className="rounded-md object-cover" data-ai-hint={item.product.imageHint} />
+                                <Image src={item.product.imageUrls[0]} alt={item.product.name} width={64} height={64} className="rounded-md object-cover" data-ai-hint={item.product.imageHint} />
                                 <div className="flex-grow">
                                     <p className="font-semibold">{item.product.name}</p>
                                     <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>

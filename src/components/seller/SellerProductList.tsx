@@ -55,7 +55,7 @@ export function SellerProductList({ limit }: SellerProductListProps) {
                         <TableRow key={product.id}>
                             <TableCell>
                                 <Image 
-                                    src={product.imageUrl} 
+                                    src={product.imageUrls[0]} 
                                     alt={product.name} 
                                     width={48} 
                                     height={48} 

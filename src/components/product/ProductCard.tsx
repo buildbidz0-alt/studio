@@ -24,7 +24,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <CardHeader className="p-0 relative">
           <div className="relative h-48 w-full">
             <Image
-              src={product.imageUrl}
+              src={product.imageUrls[0]}
               alt={product.name}
               fill
               className="object-cover"

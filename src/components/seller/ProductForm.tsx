@@ -27,20 +27,25 @@ import { useAuth } from "@/hooks/use-auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { addProduct, type Product } from "@/lib/data";
+import { addProduct } from "@/lib/data";
 import Image from "next/image";
-import { UploadCloud } from "lucide-react";
+import { UploadCloud, X } from "lucide-react";
+
+const MAX_IMAGES = 5;
+const MAX_FILE_SIZE = 5000000; // 5MB
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const formSchema = z.object({
   name: z.string().min(3, "Product name must be at least 3 characters."),
   description: z.string().min(10, "Description must be at least 10 characters."),
   price: z.coerce.number().positive("Price must be a positive number."),
   category: z.enum(['Food', 'Cosmetics', 'Apparel', 'Home Goods']),
-  image: z.any()
-    .refine((files) => files?.length == 1, "Image is required.")
-    .refine((files) => files?.[0]?.size <= 5000000, `Max file size is 5MB.`)
+  images: z.any()
+    .refine((files) => files?.length > 0, "At least one image is required.")
+    .refine((files) => files?.length <= MAX_IMAGES, `You can upload a maximum of ${MAX_IMAGES} images.`)
+    .refine((files) => Array.from(files).every((file: any) => file?.size <= MAX_FILE_SIZE), `Max file size is 5MB.`)
     .refine(
-      (files) => ["image/jpeg", "image/png", "image/webp"].includes(files?.[0]?.type),
+      (files) => Array.from(files).every((file: any) => ACCEPTED_IMAGE_TYPES.includes(file?.type)),
       "Only .jpg, .png and .webp formats are supported."
     ),
   isHalalCertified: z.boolean().default(false),
@@ -51,7 +56,7 @@ export function ProductForm() {
   const { user } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,20 +67,50 @@ export function ProductForm() {
       category: "Food",
       isHalalCertified: true,
       imageHint: "",
+      images: [],
     },
   });
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
+    const files = e.target.files;
+    if (files) {
+      const newPreviews: string[] = [];
+      const fileArray = Array.from(files);
+
+      if (fileArray.length + imagePreviews.length > MAX_IMAGES) {
+          toast({
+              title: "Too many images",
+              description: `You can only upload a maximum of ${MAX_IMAGES} images.`,
+              variant: "destructive"
+          });
+          return;
+      }
+
+      fileArray.forEach(file => {
         const reader = new FileReader();
         reader.onloadend = () => {
-            setImagePreview(reader.result as string);
+          newPreviews.push(reader.result as string);
+          if (newPreviews.length === fileArray.length) {
+            setImagePreviews(prev => [...prev, ...newPreviews]);
+          }
         };
         reader.readAsDataURL(file);
-    } else {
-        setImagePreview(null);
+      });
     }
+  }
+
+  const removeImage = (index: number) => {
+    const newPreviews = [...imagePreviews];
+    newPreviews.splice(index, 1);
+    setImagePreviews(newPreviews);
+    
+    const currentImages = form.getValues("images");
+    const newImages = Array.from(currentImages).filter((_, i) => i !== index);
+    
+    // Create a new FileList
+    const dataTransfer = new DataTransfer();
+    newImages.forEach(file => dataTransfer.items.add(file as File));
+    form.setValue("images", dataTransfer.files);
   }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -88,10 +123,10 @@ export function ProductForm() {
         return;
     }
     
-    if (!imagePreview) {
+    if (imagePreviews.length === 0) {
         toast({
-            title: "Image required",
-            description: "Please upload an image for the product.",
+            title: "Images required",
+            description: "Please upload at least one image for the product.",
             variant: "destructive"
         });
         return;
@@ -105,7 +140,7 @@ export function ProductForm() {
             category: values.category,
             isHalalCertified: values.isHalalCertified,
             imageHint: values.imageHint,
-            imageUrl: imagePreview,
+            imageUrls: imagePreviews, // Use the base64 previews
             sellerId: user.id
         }
         await addProduct(productData);
@@ -192,19 +227,20 @@ export function ProductForm() {
         </div>
         <FormField
           control={form.control}
-          name="image"
+          name="images"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Product Image</FormLabel>
+              <FormLabel>Product Images</FormLabel>
                 <FormControl>
                     <label className="w-full border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center cursor-pointer hover:border-primary transition-colors block">
                         <UploadCloud className="mx-auto h-12 w-12 text-muted-foreground" />
                         <p className="mt-2 text-sm text-muted-foreground">Click to upload or drag and drop</p>
-                        <p className="text-xs text-muted-foreground">PNG, JPG, or WEBP (max 5MB)</p>
+                        <p className="text-xs text-muted-foreground">Up to {MAX_IMAGES} images (PNG, JPG, WEBP, max 5MB each)</p>
                         <Input 
                             type="file" 
                             className="hidden" 
-                            {...form.register("image")}
+                            {...form.register("images")}
+                            multiple
                             onChange={(e) => {
                                 field.onChange(e.target.files)
                                 handleImageChange(e)
@@ -217,11 +253,24 @@ export function ProductForm() {
             </FormItem>
           )}
         />
-        {imagePreview && (
+        {imagePreviews.length > 0 && (
             <div>
-                <FormLabel>Image Preview</FormLabel>
-                <div className="mt-2 relative w-full aspect-video rounded-md overflow-hidden border">
-                    <Image src={imagePreview} alt="Image Preview" fill className="object-cover" />
+                <FormLabel>Image Previews</FormLabel>
+                <div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    {imagePreviews.map((preview, index) => (
+                        <div key={index} className="relative aspect-square rounded-md overflow-hidden border">
+                            <Image src={preview} alt={`Preview ${index + 1}`} fill className="object-cover" />
+                             <Button 
+                                type="button" 
+                                variant="destructive" 
+                                size="icon" 
+                                className="absolute top-1 right-1 h-6 w-6"
+                                onClick={() => removeImage(index)}
+                            >
+                                <X className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    ))}
                 </div>
             </div>
         )}
@@ -235,7 +284,7 @@ export function ProductForm() {
                 <Input placeholder="e.g. olive oil" {...field} />
               </FormControl>
                <FormDescription>
-                Provide one or two keywords to describe the image.
+                Provide one or two keywords to describe the primary image.
               </FormDescription>
               <FormMessage />
             </FormItem>
